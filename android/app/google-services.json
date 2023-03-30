@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "776872689635",
+    "project_id": "brithdayapp",
+    "storage_bucket": "brithdayapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776872689635:android:ca80ab3a5fdb24a999ead6",
+        "android_client_info": {
+          "package_name": "com.example.birthdates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776872689635-6ptinsomg2fdkg07purm9l2enai6tcrk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR33vTqSga7_fezad8DTMg0zg8-p5B0cc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776872689635-6ptinsomg2fdkg07purm9l2enai6tcrk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
