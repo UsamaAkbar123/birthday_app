@@ -111,14 +111,12 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SizedBox(
-              width: context.width,
+          SizedBox(
+            width: context.width,
+            child: Center(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     for (int i = 1; i < loopLengthForSlider; i++)
                       SliderLine(

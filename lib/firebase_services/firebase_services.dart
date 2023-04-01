@@ -30,7 +30,7 @@ class FirebaseServices {
   }
 
   /// add brith day data to fireStore database
-  Future<void> addUserBrithDayInfo({
+  Future<void> addUserBirthDayInfo({
     required Map<String, dynamic> data,
     required BuildContext context,
     required bool isImageNull,
@@ -45,20 +45,53 @@ class FirebaseServices {
         .doc(data['id'])
         .set(data)
         .then((value) async {
-      await FirebaseServices().getBirthDayInfo(context: context).then((value) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+      await FirebaseServices()
+          .getBirthDayInfo(context: context, addedData: data)
+          .then((value) {
+        if (value == 'Adding Birthday Data Mode') {
+          final birthdayProvider = Provider.of<BirthDayProvider>(context,listen: false);
+          // print('Response Value: $value');
+          List<BirthdayModel> birthdayListData = birthdayProvider.birthdayModeList ?? [];
+          for(int i=0;i<birthdayListData.length;i++){
+            if(data['id'] == birthdayListData[i].id){
+              if(i == 0){
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Provider.of<NavProvider>(context, listen: false)
+                    .setNavIndex(5);
+                birthdayProvider.setSelectedBirthDayCardIndex = i;
+                birthdayProvider.setSelectedBirthDayCardModel(
+                    data:  birthdayListData[i]);
+                break;
+              }else{
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Provider.of<NavProvider>(context, listen: false)
+                    .setNavIndex(4);
+                birthdayProvider.setSelectedBirthDayCardIndex = i;
+                birthdayProvider.setSelectedBirthDayCardModel(
+                    data:  birthdayListData[i]);
+                break;
+              }
+              // birthdayProvider.s
+            }
+          }
+        }else{
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Provider.of<NavProvider>(context, listen: false).setNavIndex(11);
+        }
+
         // if(isImageNull != true){
         //
         // }
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Data added successfully'),
-            backgroundColor: Colors.greenAccent,
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Data added successfully'),
+        //     backgroundColor: Colors.greenAccent,
+        //   ),
+        // );
 
-         Provider.of<NavProvider>(context,listen: false).setNavIndex(11);
 
       });
       // Navigator.of(context).pop();
@@ -68,7 +101,7 @@ class FirebaseServices {
       //   backgroundColor: Colors.greenAccent,
       // ));
       // Navigator.of(context).pop();
-      debugPrint('Data added successfully');
+      // debugPrint('Data added successfully');
     }).catchError((error) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -112,8 +145,7 @@ class FirebaseServices {
           "Date_Of_Brith": dateOfBirth,
           "image": imageUrlLink,
         };
-        await FirebaseServices()
-            .addUserBrithDayInfo(
+        await FirebaseServices().addUserBirthDayInfo(
           data: body,
           context: context,
           isImageNull: false,
@@ -130,7 +162,8 @@ class FirebaseServices {
 
   /// get data from firebase
 
-  Future<void> getBirthDayInfo({required BuildContext context}) async {
+  Future<String> getBirthDayInfo(
+      {required BuildContext context, Map<String, dynamic>? addedData}) async {
     final birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
 
@@ -205,12 +238,19 @@ class FirebaseServices {
     } catch (e) {
       debugPrint('Error: $e');
     }
+    if (addedData != null) {
+      return 'Adding Birthday Data Mode';
+    } else {
+      return 'Not Adding Birthday Data Mode';
+    }
   }
 
   /// delete birth day
   ///
-  void deleteBirthDay(
-      {required String id, required BuildContext context}) async {
+  void deleteBirthDay({
+    required String id,
+    required BuildContext context,
+  }) async {
     loadingDialogue(context);
     await fireStore
         .collection('users')
@@ -222,16 +262,16 @@ class FirebaseServices {
       FirebaseServices().getBirthDayInfo(context: context).then((value) {
         Navigator.of(context).pop();
         Provider.of<NavProvider>(context, listen: false).setNavIndex(1);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Data deleted successfully'),
-          backgroundColor: Colors.greenAccent,
-        ));
+        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        //   content: Text('Data deleted successfully'),
+        //   backgroundColor: Colors.greenAccent,
+        // ));
       }).catchError((error) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Something went Wrong'),
-          backgroundColor: Colors.redAccent,
-        ));
+        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        //   content: Text('Something went Wrong'),
+        //   backgroundColor: Colors.redAccent,
+        // ));
         debugPrint('Error While fetching data from firebase: $error');
       });
     }).catchError((error) {
