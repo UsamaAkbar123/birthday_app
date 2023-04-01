@@ -94,6 +94,15 @@ extension TextStyler on TextStyle {
     );
   }
 
+  TextStyle get medium14Purple {
+    return TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w600,
+      color: AppColors.purple,
+      fontStyle: GoogleFonts.rubik().fontStyle,
+    );
+  }
+
   TextStyle get regular14LighterGrey {
     return TextStyle(
       fontSize: 14.sp,
