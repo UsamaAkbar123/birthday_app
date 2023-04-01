@@ -14,15 +14,18 @@ class _LoadingScreenForChangeIndexState extends State<LoadingScreenForChangeInde
   @override
   void initState() {
     int navIndex = Provider.of<NavProvider>(context,listen: false).previousNavIndex;
-    if(navIndex == 1){
-      Future.delayed(Duration.zero, () async {
-        Provider.of<NavProvider>(context,listen: false).setNavIndex(navIndex);
-      });
-    }else{
-      Future.delayed(Duration.zero, () async {
-        Provider.of<NavProvider>(context,listen: false).setNavIndex(0);
-      });
-    }
+    Future.delayed(Duration.zero, () async {
+      Provider.of<NavProvider>(context,listen: false).setNavIndex(navIndex);
+    });
+    // if(navIndex == 1){
+    //   Future.delayed(Duration.zero, () async {
+    //     Provider.of<NavProvider>(context,listen: false).setNavIndex(navIndex);
+    //   });
+    // }else{
+    //   Future.delayed(Duration.zero, () async {
+    //     Provider.of<NavProvider>(context,listen: false).setNavIndex(0);
+    //   });
+    // }
     super.initState();
   }
 

@@ -16,7 +16,9 @@ class NavProvider extends ChangeNotifier {
   int get navIndex => _selectedNavIndex;
   int get previousNavIndex => _previousNavIndex;
   void setNavIndex(int index) {
-    _previousNavIndex = _selectedNavIndex;
+    if(_selectedNavIndex != 11){
+      _previousNavIndex = _selectedNavIndex;
+    }
     _selectedNavIndex = index;
     notifyListeners();
     //log('Notified NavStatus');

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/providers/birthday_provider.dart';
-import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/get_zodiac_sign.dart';
@@ -66,6 +65,7 @@ class ProfileCard extends StatefulWidget {
 class _ProfileCardState extends State<ProfileCard> {
   int userAgeInYear = 0;
   String dateFormat = '';
+  String userFirstName = '';
 
   @override
   void initState() {
@@ -73,6 +73,17 @@ class _ProfileCardState extends State<ProfileCard> {
         Provider.of<BirthDayProvider>(context, listen: false);
     int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
     int currentYear = DateTime.now().year;
+    List<String> nameParts = birthDayProvider.birthdayModel!.name.trim().split(" ");
+    if(nameParts.isNotEmpty){
+      userFirstName = nameParts[0];
+    }else{
+      userFirstName = birthDayProvider.birthdayModel!.name;
+    }
+
+
+
+
+
     dateFormat =
         DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
 
@@ -179,7 +190,7 @@ class _ProfileCardState extends State<ProfileCard> {
                   height: 20.h,
                 ),
                 Text(
-                  'Tell us more about Stepa and here will be Stepa’s interests and hobbies',
+                  'Tell us more about $userFirstName and here will be $userFirstName’s interests and hobbies',
                   style: const TextStyle().regular14LighterGrey,
                   textAlign: TextAlign.center,
                 ),

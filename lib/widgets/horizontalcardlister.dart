@@ -111,16 +111,22 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
               ),
             ),
           ),
-          SizedBox(
-            width: context.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int i = 1; i < loopLengthForSlider; i++)
-                  SliderLine(
-                    isSelected: currentVal == i,
-                  ),
-              ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SizedBox(
+              width: context.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (int i = 1; i < loopLengthForSlider; i++)
+                      SliderLine(
+                        isSelected: currentVal == i,
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
