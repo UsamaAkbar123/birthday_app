@@ -31,36 +31,25 @@ class _CalenderScreenState extends State<CalenderScreen> {
   void _runFiler(DateTime dateOfBirth) {
     List<BirthdayModel> results = [];
     days = [];
-    DateTime currentDateTime = DateTime.now();
 
-    if (DateFormat('yyyy MM dd').format(dateOfBirth) ==
-        DateFormat('yyyy MM dd').format(currentDateTime)) {
-      results = birthDayList;
-    } else {
-      for (int i = 0; i < dateTimeList.length; i++) {
-        if (dateTimeList[i].toLowerCase().contains(
-            DateFormat('yyyy MM dd').format(dateOfBirth).toLowerCase())) {
-          results.add(birthDayList[i]);
-        }
+    for (int i = 0; i < dateTimeList.length; i++) {
+      if (dateTimeList[i].toLowerCase().contains(
+          DateFormat('yyyy MM dd').format(dateOfBirth).toLowerCase())) {
+        results.add(birthDayList[i]);
       }
-      // print(birthDayList);
     }
 
-    // print('results list: $results');
-
-    setState(() {
-      filterList = results;
-      for (int i = 0; i < filterList.length; i++) {
-        _calculateDaysLeft(filterList[i].dob);
-      }
-
-      // print('days list: $days');
-
-    });
+    setState(
+      () {
+        filterList = results;
+        for (int i = 0; i < filterList.length; i++) {
+          _calculateDaysLeft(filterList[i].dob);
+        }
+      },
+    );
   }
 
   void _calculateDaysLeft(DateTime date) {
-
     final now = DateTime.now();
     final nextBirthday = DateTime(now.year, now.month, now.day);
     userBirthDayDataTime = DateTime(
@@ -111,8 +100,6 @@ class _CalenderScreenState extends State<CalenderScreen> {
 
       _calculateDaysLeft(birthDayList[i].dob);
     }
-
-    print('days list: $days');
     super.initState();
   }
 
