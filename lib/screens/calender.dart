@@ -31,36 +31,25 @@ class _CalenderScreenState extends State<CalenderScreen> {
   void _runFiler(DateTime dateOfBirth) {
     List<BirthdayModel> results = [];
     days = [];
-    DateTime currentDateTime = DateTime.now();
 
-    if (DateFormat('yyyy MM dd').format(dateOfBirth) ==
-        DateFormat('yyyy MM dd').format(currentDateTime)) {
-      results = birthDayList;
-    } else {
-      for (int i = 0; i < dateTimeList.length; i++) {
-        if (dateTimeList[i].toLowerCase().contains(
-            DateFormat('yyyy MM dd').format(dateOfBirth).toLowerCase())) {
-          results.add(birthDayList[i]);
-        }
+    for (int i = 0; i < dateTimeList.length; i++) {
+      if (dateTimeList[i].toLowerCase().contains(
+          DateFormat('yyyy MM dd').format(dateOfBirth).toLowerCase())) {
+        results.add(birthDayList[i]);
       }
-      // print(birthDayList);
     }
 
-    // print('results list: $results');
-
-    setState(() {
-      filterList = results;
-      for (int i = 0; i < filterList.length; i++) {
-        _calculateDaysLeft(filterList[i].dob);
-      }
-
-      // print('days list: $days');
-
-    });
+    setState(
+      () {
+        filterList = results;
+        for (int i = 0; i < filterList.length; i++) {
+          _calculateDaysLeft(filterList[i].dob);
+        }
+      },
+    );
   }
 
   void _calculateDaysLeft(DateTime date) {
-
     final now = DateTime.now();
     final nextBirthday = DateTime(now.year, now.month, now.day);
     userBirthDayDataTime = DateTime(
@@ -91,9 +80,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
   @override
   void initState() {
     time = DateFormat('dd of MMMM').format(dateTime).toString();
-    filterList = Provider.of<BirthDayProvider>(context, listen: false)
-            .birthdayModeList ??
-        [];
+    // filterList = Provider.of<BirthDayProvider>(context, listen: false)
+    //         .birthdayModeList ??
+    //     [];
     birthDayList = Provider.of<BirthDayProvider>(context, listen: false)
             .birthdayModeList ??
         [];
@@ -112,7 +101,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
       _calculateDaysLeft(birthDayList[i].dob);
     }
 
-    print('days list: $days');
+    _runFiler(dateTime);
+
     super.initState();
   }
 
@@ -195,12 +185,10 @@ class CalenderWidget extends StatefulWidget {
 
 class _CalenderWidgetState extends State<CalenderWidget> {
   List<DateTime> convertedDateTimeList = [];
-  final DateTime _focusedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+
+  DateTime currentDate = DateTime.now();
   List<int> intList = [];
-  List<DateTime> selectedDates = [
-    DateTime.now().subtract(const Duration(days: 5)),
-    // DateTime.now(),
-  ];
 
   List<int> getEvents(DateTime day) {
     if (convertedDateTimeList.isNotEmpty) {
@@ -215,8 +203,6 @@ class _CalenderWidgetState extends State<CalenderWidget> {
     return [];
   }
 
-  DateTime currentDate = DateTime.now();
-
   @override
   void initState() {
     for (int i = 0; i < widget.listData.length; i++) {
@@ -226,7 +212,6 @@ class _CalenderWidgetState extends State<CalenderWidget> {
         widget.listData[i].dob.day,
       );
       convertedDateTimeList.add(a);
-      // print(convertedDateTimeList[i]);
     }
     super.initState();
   }
@@ -244,7 +229,6 @@ class _CalenderWidgetState extends State<CalenderWidget> {
             color: AppColors.grey.withOpacity(0.05),
             spreadRadius: 2,
             blurRadius: 50,
-            // changes position of shadow
           ),
         ],
       ),
@@ -304,84 +288,14 @@ class _CalenderWidgetState extends State<CalenderWidget> {
         firstDay: DateTime(2022, 2, 1),
         lastDay: DateTime(2023, 12, 1),
         selectedDayPredicate: (day) {
-          // print(selectedDates.length);
-
-          if (!selectedDates.contains(day)) {
-            return false;
-          } else {
-            return true;
-          }
+          return isSameDay(day, _focusedDay);
         },
         onDaySelected: (selectedDay, focusedDay) {
-          //print(selectedDay);
           widget.onSelectDay(selectedDay);
-          selectedDates = [];
-          selectedDates.add(selectedDay);
+          _focusedDay = selectedDay;
           setState(() {});
-          // setState(() {
-          //   if (selectedDates.contains(selectedDay)) {
-          //     selectedDates.remove(selectedDay);
-          //     setState(() {});
-          //   } else {
-          //     selectedDates.add(selectedDay);
-          //     _focusedDay = focusedDay;
-          //     setState(() {});
-          //   }
-          // });
         },
       ),
     );
   }
 }
-
-// class CalenderWidget extends StatefulWidget {
-//   const CalenderWidget({super.key});
-
-//   @override
-//   State<CalenderWidget> createState() => _CalenderWidgetState();
-// }
-
-// class _CalenderWidgetState extends State<CalenderWidget> {
-//   DateTime selectedDateTime = DateTime(2023);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-//       padding: const EdgeInsets.all(15),
-//       decoration: BoxDecoration(
-//         color: AppColors.white,
-//         borderRadius: BorderRadius.circular(16),
-//         boxShadow: [
-//           BoxShadow(
-//             color: AppColors.grey.withOpacity(0.05),
-//             spreadRadius: 2,
-//             blurRadius: 50,
-//             // changes position of shadow
-//           ),
-//         ],
-//       ),
-//       height: context.height * 0.4,
-//       width: context.width,
-//       child: CalendarCarousel(
-//         todayBorderColor: AppColors.blue,
-//         //selectedDateTime: selectedDateTime,
-//         selectedDayButtonColor: Colors.transparent,
-//         selectedDayTextStyle: const TextStyle().medium16Blue,
-//         todayButtonColor: AppColors.blue,
-//         selectedDayBorderColor: AppColors.blue,
-//         daysTextStyle: const TextStyle().medium16LighterGrey,
-//         weekdayTextStyle: const TextStyle().regular14Grey,
-//         weekendTextStyle: const TextStyle().medium16LighterGrey,
-//         showOnlyCurrentMonthDate: true,
-//         iconColor: AppColors.grey,
-//         headerTextStyle: const TextStyle().medium20,
-//         markedDateIconBorderColor: AppColors.purple,
-
-//         onDayPressed: (p0, p1) {
-//           selectedDateTime = p0;
-//           setState(() {});
-//         },
-//       ),
-//     );
-//   }
-// }

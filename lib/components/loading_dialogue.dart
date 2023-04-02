@@ -1,3 +1,4 @@
+import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:flutter/material.dart';
 
@@ -22,13 +23,13 @@ loadingDialogue(BuildContext context){
                 alignment: Alignment.center,
                 child: const CircularProgressIndicator.adaptive(
                   valueColor: AlwaysStoppedAnimation(
-                    Colors.black,
+                    AppColors.purple,
                   ),
                 ),
               ),
               const SizedBox(height: 10,),
               Text("Loading...",
-                style: const TextStyle().medium14Black,
+                style: const TextStyle().medium14Purple,
               )
             ],
           ),

@@ -287,7 +287,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       "image": 'assets/icons/usericon.png',
                     };
                     await FirebaseServices()
-                        .addUserBrithDayInfo(
+                        .addUserBirthDayInfo(
                       data: body,
                       context: context,
                       isImageNull: true,
