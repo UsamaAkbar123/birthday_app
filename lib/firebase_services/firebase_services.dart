@@ -49,34 +49,36 @@ class FirebaseServices {
           .getBirthDayInfo(context: context, addedData: data)
           .then((value) {
         if (value == 'Adding Birthday Data Mode') {
-          final birthdayProvider = Provider.of<BirthDayProvider>(context,listen: false);
+          final birthdayProvider =
+              Provider.of<BirthDayProvider>(context, listen: false);
           // print('Response Value: $value');
-          List<BirthdayModel> birthdayListData = birthdayProvider.birthdayModeList ?? [];
-          for(int i=0;i<birthdayListData.length;i++){
-            if(data['id'] == birthdayListData[i].id){
-              if(i == 0){
+          List<BirthdayModel> birthdayListData =
+              birthdayProvider.birthdayModeList ?? [];
+          for (int i = 0; i < birthdayListData.length; i++) {
+            if (data['id'] == birthdayListData[i].id) {
+              if (i == 0) {
+                Provider.of<NavProvider>(context, listen: false).setNavIndex(5);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                Provider.of<NavProvider>(context, listen: false)
-                    .setNavIndex(5);
                 birthdayProvider.setSelectedBirthDayCardIndex = i;
                 birthdayProvider.setSelectedBirthDayCardModel(
-                    data:  birthdayListData[i]);
+                  data: birthdayListData[i],
+                );
                 break;
-              }else{
+              } else {
+                Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                Provider.of<NavProvider>(context, listen: false)
-                    .setNavIndex(4);
                 birthdayProvider.setSelectedBirthDayCardIndex = i;
                 birthdayProvider.setSelectedBirthDayCardModel(
-                    data:  birthdayListData[i]);
+                  data: birthdayListData[i],
+                );
                 break;
               }
               // birthdayProvider.s
             }
           }
-        }else{
+        } else {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Provider.of<NavProvider>(context, listen: false).setNavIndex(11);
@@ -91,8 +93,6 @@ class FirebaseServices {
         //     backgroundColor: Colors.greenAccent,
         //   ),
         // );
-
-
       });
       // Navigator.of(context).pop();
       // Navigator.of(context).pop();
