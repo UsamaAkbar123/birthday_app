@@ -3,7 +3,6 @@ import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:birthdates/managers/preference_manager.dart';
@@ -46,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SettingTile(
             title: 'Remind',
-            value: '${_prefs.getReminder}h before',
+            value: _prefs.getReminder,
             // value: _prefs.getReminder,
             onPressed: () async {
                navProvider.setNavIndex(10);
