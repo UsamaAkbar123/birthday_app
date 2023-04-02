@@ -80,9 +80,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
   @override
   void initState() {
     time = DateFormat('dd of MMMM').format(dateTime).toString();
-    filterList = Provider.of<BirthDayProvider>(context, listen: false)
-            .birthdayModeList ??
-        [];
+    // filterList = Provider.of<BirthDayProvider>(context, listen: false)
+    //         .birthdayModeList ??
+    //     [];
     birthDayList = Provider.of<BirthDayProvider>(context, listen: false)
             .birthdayModeList ??
         [];
@@ -100,6 +100,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
 
       _calculateDaysLeft(birthDayList[i].dob);
     }
+
+    _runFiler(dateTime);
+
     super.initState();
   }
 
