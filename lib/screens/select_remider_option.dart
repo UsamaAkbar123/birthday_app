@@ -165,7 +165,7 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
       child: selected
           ? const Icon(
               CupertinoIcons.check_mark,
-              color: Color.fromARGB(255, 45, 118, 234),
+              color: AppColors.purple,
               size: 20,
             )
           : Container(),
