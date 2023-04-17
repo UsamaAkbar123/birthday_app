@@ -73,8 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             birthdayModel:
                                 birthdayProvider.birthdayModeList![0],
                             onTab: () {
+                              // Provider.of<NavProvider>(context, listen: false)
+                              //     .setNavIndex(5);
                               Provider.of<NavProvider>(context, listen: false)
-                                  .setNavIndex(5);
+                                  .setNavIndex(4);
                               birthdayProvider.setSelectedBirthDayCardIndex = 0;
                               birthdayProvider.setSelectedBirthDayCardModel(
                                   data: birthdayProvider.birthdayModeList![0]);
@@ -266,7 +268,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
               days,
               style: GoogleFonts.rubik(
                 textStyle: TextStyle(
-                  fontSize: 70.sp,
+                  fontSize: days.length == 3 ? 55.sp : 70.sp,
                   fontWeight: FontWeight.w600,
                   foreground: Paint()
                     ..style = PaintingStyle.stroke

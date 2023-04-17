@@ -222,8 +222,8 @@ class ScreenDecider extends StatelessWidget {
         return const GiftsLiked();
       case 10:
         return const SelectReminderOptions();
-      case 11:
-        return const LoadingScreenForChangeIndex();
+      // case 11:
+      //   return const LoadingScreenForChangeIndex();
       default:
         return const SizedBox.shrink();
     }
