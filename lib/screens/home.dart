@@ -193,14 +193,25 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      currentYearDataTime = DateTime(
-        now.year,
-        widget.birthdayModel.dob.month,
-        widget.birthdayModel.dob.day,
-      );
-      final difference = currentYearDataTime.difference(nextBirthday);
-      days = (difference.inDays).toString();
-      setState(() {});
+      if (date.isBefore(nextBirthday)) {
+        currentYearDataTime = DateTime(
+          now.year + 1,
+          widget.birthdayModel.dob.month,
+          widget.birthdayModel.dob.day,
+        );
+        final difference = currentYearDataTime.difference(nextBirthday);
+        days = (difference.inDays).toString();
+        setState(() {});
+      } else {
+        currentYearDataTime = DateTime(
+          now.year,
+          widget.birthdayModel.dob.month,
+          widget.birthdayModel.dob.day,
+        );
+        final difference = currentYearDataTime.difference(nextBirthday);
+        days = (difference.inDays).toString();
+        setState(() {});
+      }
     }
 
     // if(difference == 0){

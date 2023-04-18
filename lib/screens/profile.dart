@@ -21,8 +21,10 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var birthDayProvider =
-        Provider.of<BirthDayProvider>(context, listen: false);
+    var birthDayProvider = Provider.of<BirthDayProvider>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: MyAppBar(
@@ -73,16 +75,13 @@ class _ProfileCardState extends State<ProfileCard> {
         Provider.of<BirthDayProvider>(context, listen: false);
     int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
     int currentYear = DateTime.now().year;
-    List<String> nameParts = birthDayProvider.birthdayModel!.name.trim().split(" ");
-    if(nameParts.isNotEmpty){
+    List<String> nameParts =
+        birthDayProvider.birthdayModel!.name.trim().split(" ");
+    if (nameParts.isNotEmpty) {
       userFirstName = nameParts[0];
-    }else{
+    } else {
       userFirstName = birthDayProvider.birthdayModel!.name;
     }
-
-
-
-
 
     dateFormat =
         DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
@@ -258,11 +257,34 @@ class _TimerWidgetState extends State<TimerWidget> {
         .birthdayModel!
         .dob;
 
-    currentYearDataTime = DateTime(
-      currentDateTime.year,
+    userDateTime = DateTime(
+      userDateTime.year,
       userDateTime.month,
       userDateTime.day,
     );
+
+    currentDateTime = DateTime(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+    );
+
+    print('User Date Time: $userDateTime');
+    print('Current Date Time: $currentDateTime');
+
+    if (userDateTime.isBefore(currentDateTime)) {
+      currentYearDataTime = DateTime(
+        currentDateTime.year + 1,
+        userDateTime.month,
+        userDateTime.day,
+      );
+    } else {
+      currentYearDataTime = DateTime(
+        currentDateTime.year,
+        userDateTime.month,
+        userDateTime.day,
+      );
+    }
 
     Duration difference = currentYearDataTime.difference(currentDateTime);
 
