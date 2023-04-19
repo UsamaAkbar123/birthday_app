@@ -6,6 +6,7 @@ class BirthdayModel {
   final String gender;
   final String imageUrl;
   final DateTime dob;
+  final int actualBirthDayYear;
 
   BirthdayModel({
     required this.id,
@@ -13,6 +14,7 @@ class BirthdayModel {
     required this.gender,
     required this.imageUrl,
     required this.dob,
+    required this.actualBirthDayYear,
   });
 
   factory BirthdayModel.fromMap(DocumentSnapshot<Map<String, dynamic>> data) =>
@@ -26,5 +28,6 @@ class BirthdayModel {
         dob: data.data().toString().contains('Date_Of_Brith')
             ? data.get('Date_Of_Brith').toDate()
             : DateTime.now(),
+        actualBirthDayYear: data.data().toString().contains('actual_birthday_year') ? data.get('actual_birthday_year') : '',
       );
 }

@@ -191,6 +191,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
 
     if (date == nextBirthday) {
       days = 0.toString();
+      print('Equal');
       setState(() {});
     } else {
       if (date.isBefore(nextBirthday)) {
@@ -229,7 +230,8 @@ class _MainHomeCardState extends State<MainHomeCard> {
   @override
   void initState() {
     currentYearDataTime = DateTime(
-      widget.birthdayModel.dob.year,
+      // widget.birthdayModel.dob.year,
+      widget.birthdayModel.actualBirthDayYear,
       widget.birthdayModel.dob.month,
       widget.birthdayModel.dob.day,
     );

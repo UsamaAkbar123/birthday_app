@@ -269,8 +269,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       currentDateTime.day,
     );
 
-    print('User Date Time: $userDateTime');
-    print('Current Date Time: $currentDateTime');
+    // print('User Date Time: $userDateTime');
+    // print('Current Date Time: $currentDateTime');
 
     if (userDateTime.isBefore(currentDateTime)) {
       currentYearDataTime = DateTime(

@@ -41,7 +41,7 @@ class FirebaseServices {
     fireStore
         .collection('users')
         .doc(_prefs.getDeviceToken)
-        .collection('brith_day_info')
+        .collection('birth_day_info')
         .doc(data['id'])
         .set(data)
         .then((value) async {
@@ -142,8 +142,9 @@ class FirebaseServices {
           "id": uuid.v4().toString(),
           "Name": userName,
           "Gender": gender,
-          "Date_Of_Brith": dateOfBirth,
+          "Date_Of_Birth": dateOfBirth,
           "image": imageUrlLink,
+          "actual_birthday_year": dateOfBirth?.year,
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -169,20 +170,32 @@ class FirebaseServices {
 
     try {
       List<BirthdayModel> birthDayList = [];
+      List<BirthdayModel> originalSortedList = [];
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
       QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStore
           .collection('users')
           .doc(_prefs.getDeviceToken)
-          .collection('brith_day_info')
+          .collection('birth_day_info')
           .get();
 
       birthDayList =
           querySnapshot.docs.map((doc) => BirthdayModel.fromMap(doc)).toList();
 
+      // print('birthDayList length: ${birthDayList.length}');
+
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
+
+
+      // for(int i=birthDayList.length;i>0;i--){
+      //   originalSortedList.add(birthDayList[i]);
+      // }
+
+
+
       for (int i = 0; i < birthDayList.length; i++) {
+        // print('Original list: ${originalSortedList[i].dob}');
         dateTimeList.add(DateTime(DateTime.now().year,
             birthDayList[i].dob.month, birthDayList[i].dob.day));
 
@@ -196,6 +209,7 @@ class FirebaseServices {
           gender: birthDayList[i].gender,
           imageUrl: birthDayList[i].imageUrl,
           dob: dateTimeList[i],
+          actualBirthDayYear: birthDayList[i].actualBirthDayYear,
         );
 
         sortedBirthDayList.add(model);
@@ -205,10 +219,10 @@ class FirebaseServices {
 
       sortedBirthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
-      // for (int i = 0; i < sortedBirthDayList.length; i++) {
-      //   print('After Sort: ${sortedBirthDayList[i].dob}');
-      //   //print('Before Sort: ${birthDayList[i].dob}');
-      // }
+      for (int i = 0; i < sortedBirthDayList.length; i++) {
+        // print('After Sort: ${sortedBirthDayList[i].dob}');
+        //print('Before Sort: ${birthDayList[i].dob}');
+      }
 
       // List<DateTime> dateTimeList = [];
       // DateFormat format = DateFormat("yyyy-MM-dd");
@@ -255,7 +269,7 @@ class FirebaseServices {
     await fireStore
         .collection('users')
         .doc(_prefs.getDeviceToken)
-        .collection('brith_day_info')
+        .collection('birth_day_info')
         .doc(id)
         .delete()
         .then((value) {

@@ -24,6 +24,7 @@ class BirthDayProvider extends ChangeNotifier {
 
   /// get birth day info from firebase services to provider
   void getBirthDayFromFirebaseService({required List<BirthdayModel> list}) {
+    print('isDataGet: $isDataGet');
     if (list.isEmpty) {
       birthdayModeList = [];
       isDataGet = true;
