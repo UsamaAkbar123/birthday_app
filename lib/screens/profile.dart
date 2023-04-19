@@ -73,7 +73,8 @@ class _ProfileCardState extends State<ProfileCard> {
   void initState() {
     var birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
-    int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
+    // int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
+    int userYear = birthDayProvider.birthdayModel?.actualBirthDayYear ?? 0;
     int currentYear = DateTime.now().year;
     List<String> nameParts =
         birthDayProvider.birthdayModel!.name.trim().split(" ");
@@ -83,10 +84,15 @@ class _ProfileCardState extends State<ProfileCard> {
       userFirstName = birthDayProvider.birthdayModel!.name;
     }
 
+    // dateFormat =
+    //     DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
+
     dateFormat =
-        DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
+        DateFormat('dd MMMM yyyy').format(DateTime(birthDayProvider.birthdayModel!.actualBirthDayYear,birthDayProvider.birthdayModel!.dob.month,birthDayProvider.birthdayModel!.dob.day));
 
     userAgeInYear = currentYear - userYear;
+
+    print('User Age: $userAgeInYear');
 
     super.initState();
   }
@@ -272,21 +278,36 @@ class _TimerWidgetState extends State<TimerWidget> {
     // print('User Date Time: $userDateTime');
     // print('Current Date Time: $currentDateTime');
 
-    if (userDateTime.isBefore(currentDateTime)) {
-      currentYearDataTime = DateTime(
-        currentDateTime.year + 1,
-        userDateTime.month,
-        userDateTime.day,
-      );
-    } else {
-      currentYearDataTime = DateTime(
-        currentDateTime.year,
-        userDateTime.month,
-        userDateTime.day,
-      );
-    }
+    int userActualYear = Provider.of<BirthDayProvider>(context, listen: false)
+        .birthdayModel!
+        .actualBirthDayYear;
 
-    Duration difference = currentYearDataTime.difference(currentDateTime);
+    currentYearDataTime = DateTime(
+      // currentDateTime.year,
+      userActualYear,
+      userDateTime.month,
+      userDateTime.day,
+    );
+
+    // if (userDateTime.isBefore(currentDateTime)) {
+    //   currentYearDataTime = DateTime(
+    //     currentDateTime.year + 1,
+    //     userDateTime.month,
+    //     userDateTime.day,
+    //   );
+    // } else {
+    //   currentYearDataTime = DateTime(
+    //     currentDateTime.year,
+    //     userDateTime.month,
+    //     userDateTime.day,
+    //   );
+    // }
+
+    // Duration difference = currentYearDataTime.difference(currentDateTime);
+
+    Duration difference = currentDateTime.difference(currentYearDataTime);
+
+    print('difference $difference');
 
     if (difference.inSeconds < 0) {
       totalSeconds = 0;
