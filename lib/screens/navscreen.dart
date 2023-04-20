@@ -5,7 +5,6 @@ import 'package:birthdates/screens/giftnew.dart';
 import 'package:birthdates/screens/giftsliked.dart';
 import 'package:birthdates/screens/giftslist.dart';
 import 'package:birthdates/screens/home.dart';
-import 'package:birthdates/screens/loading_screen_for_change_index.dart';
 import 'package:birthdates/screens/profile.dart';
 import 'package:birthdates/screens/profilefull.dart';
 import 'package:birthdates/screens/questionslist.dart';
@@ -222,8 +221,6 @@ class ScreenDecider extends StatelessWidget {
         return const GiftsLiked();
       case 10:
         return const SelectReminderOptions();
-      case 11:
-        return const LoadingScreenForChangeIndex();
       default:
         return const SizedBox.shrink();
     }

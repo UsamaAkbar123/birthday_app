@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 birthdayProvider.birthdayModeList![0],
                             onTab: () {
                               Provider.of<NavProvider>(context, listen: false)
-                                  .setNavIndex(5);
+                                  .setNavIndex(4);
                               birthdayProvider.setSelectedBirthDayCardIndex = 0;
                               birthdayProvider.setSelectedBirthDayCardModel(
                                   data: birthdayProvider.birthdayModeList![0]);
@@ -107,51 +107,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class FeatureWidget extends StatelessWidget {
-  const FeatureWidget({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: context.width * 0.25,
-      width: context.width * 0.25,
-      padding: const EdgeInsets.all(3),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: AppColors.white,
-        border: const GradientBoxBorder(
-          width: 2,
-          gradient: LinearGradient(
-            colors: AppColors.gradient,
-          ),
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: const LinearGradient(
-            colors: AppColors.gradient,
-          ),
-        ),
-        padding: const EdgeInsets.all(10),
-        alignment: Alignment.bottomLeft,
-        child: SizedBox(
-          width: (context.width * 0.2) / 2,
-          child: Text(
-            title,
-            style: const TextStyle().medium12,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class FeatureWidget extends StatelessWidget {
+//   const FeatureWidget({
+//     super.key,
+//     required this.title,
+//   });
+//
+//   final String title;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: context.width * 0.25,
+//       width: context.width * 0.25,
+//       padding: const EdgeInsets.all(3),
+//       margin: const EdgeInsets.symmetric(horizontal: 10),
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16),
+//         color: AppColors.white,
+//         border: const GradientBoxBorder(
+//           width: 2,
+//           gradient: LinearGradient(
+//             colors: AppColors.gradient,
+//           ),
+//         ),
+//       ),
+//       child: Container(
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(12),
+//           gradient: const LinearGradient(
+//             colors: AppColors.gradient,
+//           ),
+//         ),
+//         padding: const EdgeInsets.all(10),
+//         alignment: Alignment.bottomLeft,
+//         child: SizedBox(
+//           width: (context.width * 0.2) / 2,
+//           child: Text(
+//             title,
+//             style: const TextStyle().medium12,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class MainHomeCard extends StatefulWidget {
   final BirthdayModel birthdayModel;
@@ -180,38 +180,41 @@ class _MainHomeCardState extends State<MainHomeCard> {
       now.month,
       now.day,
     );
-
-    // if (nextBirthday.isBefore(now)) {
-    //   nextBirthday.add(const Duration(days: 365));
-    // }
-
-    //final difference = nextBirthday.difference(now);
-
     if (date == nextBirthday) {
       days = 0.toString();
       setState(() {});
     } else {
-      currentYearDataTime = DateTime(
-        now.year,
-        widget.birthdayModel.dob.month,
-        widget.birthdayModel.dob.day,
-      );
-      final difference = currentYearDataTime.difference(nextBirthday);
-      days = (difference.inDays).toString();
-      setState(() {});
+      if(widget.birthdayModel.dob.month < now.month || widget.birthdayModel.dob.day < now.day){
+        currentYearDataTime = DateTime(
+          now.year + 1,
+          widget.birthdayModel.dob.month,
+          widget.birthdayModel.dob.day,
+        );
+        final difference = currentYearDataTime.difference(nextBirthday);
+        days = (difference.inDays).toString();
+        setState(() {});
+      }else{
+        currentYearDataTime = DateTime(
+          now.year,
+          widget.birthdayModel.dob.month,
+          widget.birthdayModel.dob.day,
+        );
+        final difference = currentYearDataTime.difference(nextBirthday);
+        days = (difference.inDays).toString();
+        setState(() {});
+      }
+      // currentYearDataTime = DateTime(
+      //   now.year,
+      //   widget.birthdayModel.dob.month,
+      //   widget.birthdayModel.dob.day,
+      // );
+      // final difference = currentYearDataTime.difference(nextBirthday);
+      // days = (difference.inDays).toString();
+      // setState(() {});
     }
 
-    // if(difference == 0){
-    //   return 1;
-    // }
   }
 
-  // void getTimeDetails(int timeInSeconds) {
-  //   int day = (((timeInSeconds / 60) / 60) / 24).floor();
-  //   setState(() {
-  //     days = day.toString().length <= 1 ? "$day" : "$day";
-  //   });
-  // }
 
   @override
   void initState() {
@@ -220,16 +223,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
       widget.birthdayModel.dob.month,
       widget.birthdayModel.dob.day,
     );
-
-    Duration difference = currentYearDataTime.difference(currentDateTime);
-
-    if (difference.inSeconds < 0) {
-      totalSeconds = 0;
-    } else {
-      totalSeconds = difference.inSeconds;
-
-      // getTimeDetails(totalSeconds);
-    }
     _calculateDaysLeft(currentYearDataTime);
 
     super.initState();
@@ -254,7 +247,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
               color: AppColors.grey.withOpacity(0.05),
               spreadRadius: 2,
               blurRadius: 50,
-              // changes position of shadow
             ),
           ],
         ),
@@ -266,7 +258,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
               days,
               style: GoogleFonts.rubik(
                 textStyle: TextStyle(
-                  fontSize: 70.sp,
+                  fontSize: days.length == 3 ? 50.sp : 70.sp,
                   fontWeight: FontWeight.w600,
                   foreground: Paint()
                     ..style = PaintingStyle.stroke

@@ -64,28 +64,30 @@ class ProfileCard extends StatefulWidget {
 
 class _ProfileCardState extends State<ProfileCard> {
   int userAgeInYear = 0;
-  String dateFormat = '';
+  String userActualDateOfBirth = '';
   String userFirstName = '';
 
   @override
   void initState() {
     var birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
-    int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
+    int userYear = birthDayProvider.birthdayModel?.actualUserDobYear ?? 0;
     int currentYear = DateTime.now().year;
-    List<String> nameParts = birthDayProvider.birthdayModel!.name.trim().split(" ");
-    if(nameParts.isNotEmpty){
+    List<String> nameParts =
+        birthDayProvider.birthdayModel!.name.trim().split(" ");
+    if (nameParts.isNotEmpty) {
       userFirstName = nameParts[0];
-    }else{
+    } else {
       userFirstName = birthDayProvider.birthdayModel!.name;
     }
 
-
-
-
-
-    dateFormat =
-        DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
+    userActualDateOfBirth = DateFormat('dd MMMM yyyy').format(
+      DateTime(
+        birthDayProvider.birthdayModel?.actualUserDobYear ?? 0,
+        birthDayProvider.birthdayModel!.dob.month,
+        birthDayProvider.birthdayModel!.dob.day,
+      ),
+    );
 
     userAgeInYear = currentYear - userYear;
 
@@ -178,7 +180,7 @@ class _ProfileCardState extends State<ProfileCard> {
                             height: 8.h,
                           ),
                           Text(
-                            '$userAgeInYear years  |  $dateFormat',
+                            '$userAgeInYear years  |  $userActualDateOfBirth',
                             style: const TextStyle().regular14LighterGrey,
                           ),
                         ],
@@ -221,8 +223,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   String minutes = '00';
   String seconds = '00';
   int totalSeconds = 0;
-
+  bool startCountDown = false;
   late DateTime userDateTime;
+  late Duration remainingTime;
 
   void getTimeDetails(int timeInSeconds) {
     int sec = timeInSeconds % 60;
@@ -254,18 +257,37 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   @override
   void initState() {
+
+    DateTime now = DateTime.now();
+
     userDateTime = Provider.of<BirthDayProvider>(context, listen: false)
         .birthdayModel!
         .dob;
 
-    currentYearDataTime = DateTime(
-      currentDateTime.year,
-      userDateTime.month,
-      userDateTime.day,
-    );
+    // currentYearDataTime = DateTime(
+    //   currentDateTime.year,
+    //   userDateTime.month,
+    //   userDateTime.day,
+    // );
+
+    if(userDateTime.month < now.month || userDateTime.day < now.day){
+      currentYearDataTime = DateTime(
+        currentDateTime.year + 1,
+        userDateTime.month,
+        userDateTime.day,
+      );
+    }else{
+      currentYearDataTime = DateTime(
+        currentDateTime.year,
+        userDateTime.month,
+        userDateTime.day,
+      );
+    }
+
 
     Duration difference = currentYearDataTime.difference(currentDateTime);
 
+    print('difference: $difference');
     if (difference.inSeconds < 0) {
       totalSeconds = 0;
     } else {
@@ -273,6 +295,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
 
     startTimer();
+
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        setState(
+          () {
+            startCountDown = true;
+          },
+        );
+      },
+    );
 
     super.initState();
   }
@@ -302,110 +335,20 @@ class _TimerWidgetState extends State<TimerWidget> {
       width: context.width,
       child: Column(
         children: [
-          days != '00'
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        GradientText(
-                          days,
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          'Days',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          ':',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          ' ',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          hours,
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          'Hours',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          ':',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          ' ',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          minutes,
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          'Min',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          ':',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          ' ',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GradientText(
-                          seconds,
-                          colors: AppColors.gradient,
-                          style: const TextStyle().medium32,
-                        ),
-                        GradientText(
-                          'Sec',
-                          colors: AppColors.gradient,
-                          style: const TextStyle().regular14,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
+          startCountDown
+              ? totalSeconds != 0
+                  ? CountDownWidget(
+                      days: days,
+                      hours: hours,
+                      minutes: minutes,
+                      seconds: seconds,
+                    )
+                  : const CountDownWidget(
+                      days: '00',
+                      hours: '00',
+                      minutes: '00',
+                      seconds: '00',
+                    )
               : const Center(
                   child: CircularProgressIndicator(
                     color: AppColors.purple,
@@ -413,6 +356,128 @@ class _TimerWidgetState extends State<TimerWidget> {
                 ),
         ],
       ),
+    );
+  }
+}
+
+class CountDownWidget extends StatelessWidget {
+  const CountDownWidget({
+    super.key,
+    required this.days,
+    required this.hours,
+    required this.minutes,
+    required this.seconds,
+  });
+
+  final String days;
+  final String hours;
+  final String minutes;
+  final String seconds;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: [
+            GradientText(
+              days,
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              'Days',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              ':',
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              ' ',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              hours,
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              'Hours',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              ':',
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              ' ',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              minutes,
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              'Min',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              ':',
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              ' ',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            GradientText(
+              seconds,
+              colors: AppColors.gradient,
+              style: const TextStyle().medium32,
+            ),
+            GradientText(
+              'Sec',
+              colors: AppColors.gradient,
+              style: const TextStyle().regular14,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

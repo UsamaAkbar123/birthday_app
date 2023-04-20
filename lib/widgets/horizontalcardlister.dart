@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class HorizontalCardLister extends StatefulWidget {
   final List<BirthdayModel> birthDayList;
+
   const HorizontalCardLister({super.key, required this.birthDayList});
 
   @override
@@ -63,15 +64,20 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
                       children: [
                         BirthdayReminderCard(
                           name: widget.birthDayList[i].name,
-                          date: DateFormat("dd MMM yyyy")
-                              .format(widget.birthDayList[i].dob),
+                          date: DateFormat("dd MMM yyyy").format(
+                            DateTime(
+                              widget.birthDayList[i].actualUserDobYear,
+                              widget.birthDayList[i].dob.month,
+                              widget.birthDayList[i].dob.day,
+                            ),
+                          ),
                           imageUrl: widget.birthDayList[i].imageUrl,
                           onPressed: () {
                             Provider.of<NavProvider>(context, listen: false)
                                 .setNavIndex(4);
                             birthDayProvider.setSelectedBirthDayCardIndex = i;
                             birthDayProvider.setSelectedBirthDayCardModel(
-                                data:  widget.birthDayList[i]);
+                                data: widget.birthDayList[i]);
                           },
                           userDateOfBirth: widget.birthDayList[i].dob,
                           // daysLeft: listOfDays[i],
@@ -79,18 +85,22 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
                         if (widget.birthDayList.length - i != 1)
                           BirthdayReminderCard(
                             name: widget.birthDayList[i + 1].name,
-                            date: DateFormat("dd MMM yyyy")
-                                .format(widget.birthDayList[i + 1].dob),
+                            date: DateFormat("dd MMM yyyy").format(
+                              DateTime(
+                                widget.birthDayList[i + 1].actualUserDobYear,
+                                widget.birthDayList[i + 1].dob.month,
+                                widget.birthDayList[i + 1].dob.day,
+                              ),
+                            ),
                             imageUrl: widget.birthDayList[i + 1].imageUrl,
                             onPressed: () {
                               Provider.of<NavProvider>(context, listen: false)
                                   .setNavIndex(4);
                               birthDayProvider.setSelectedBirthDayCardIndex = i;
                               birthDayProvider.setSelectedBirthDayCardModel(
-                                  data:  widget.birthDayList[i + 1]);
+                                  data: widget.birthDayList[i + 1]);
                             },
                             userDateOfBirth: widget.birthDayList[i + 1].dob,
-                            // daysLeft: listOfDays[i + 1],
                           ),
                       ],
                     ),
@@ -100,7 +110,6 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
                 viewportFraction: 0.85,
                 pageSnapping: true,
                 onPageChanged: (index, reason) {
-                  //print(index);
                   currentVal = index + 1;
                   setState(() {});
                 },
@@ -138,6 +147,7 @@ class SliderLine extends StatelessWidget {
     required this.isSelected,
     super.key,
   });
+
   final bool isSelected;
 
   @override

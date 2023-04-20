@@ -48,40 +48,34 @@ class FirebaseServices {
       await FirebaseServices()
           .getBirthDayInfo(context: context, addedData: data)
           .then((value) {
-        if (value == 'Adding Birthday Data Mode') {
-          final birthdayProvider =
-              Provider.of<BirthDayProvider>(context, listen: false);
-          // print('Response Value: $value');
-          List<BirthdayModel> birthdayListData =
-              birthdayProvider.birthdayModeList ?? [];
-          for (int i = 0; i < birthdayListData.length; i++) {
-            if (data['id'] == birthdayListData[i].id) {
-              if (i == 0) {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(5);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                birthdayProvider.setSelectedBirthDayCardIndex = i;
-                birthdayProvider.setSelectedBirthDayCardModel(
-                  data: birthdayListData[i],
-                );
-                break;
-              } else {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                birthdayProvider.setSelectedBirthDayCardIndex = i;
-                birthdayProvider.setSelectedBirthDayCardModel(
-                  data: birthdayListData[i],
-                );
-                break;
-              }
-              // birthdayProvider.s
+        final birthdayProvider =
+            Provider.of<BirthDayProvider>(context, listen: false);
+        // print('Response Value: $value');
+        List<BirthdayModel> birthdayListData =
+            birthdayProvider.birthdayModeList ?? [];
+        for (int i = 0; i < birthdayListData.length; i++) {
+          if (data['id'] == birthdayListData[i].id) {
+            if (i == 0) {
+              Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              birthdayProvider.setSelectedBirthDayCardIndex = i;
+              birthdayProvider.setSelectedBirthDayCardModel(
+                data: birthdayListData[i],
+              );
+              break;
+            } else {
+              Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              birthdayProvider.setSelectedBirthDayCardIndex = i;
+              birthdayProvider.setSelectedBirthDayCardModel(
+                data: birthdayListData[i],
+              );
+              break;
             }
+            // birthdayProvider.s
           }
-        } else {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Provider.of<NavProvider>(context, listen: false).setNavIndex(11);
         }
 
         // if(isImageNull != true){
@@ -144,6 +138,7 @@ class FirebaseServices {
           "Gender": gender,
           "Date_Of_Brith": dateOfBirth,
           "image": imageUrlLink,
+          "actual_user_dob_year": dateOfBirth?.year,
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -162,12 +157,15 @@ class FirebaseServices {
 
   /// get data from firebase
 
-  Future<String> getBirthDayInfo(
+  Future<void> getBirthDayInfo(
       {required BuildContext context, Map<String, dynamic>? addedData}) async {
     final birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
 
     try {
+      DateTime now = DateTime.now();
+
+      List<BirthdayModel> listOfOldDates = [];
       List<BirthdayModel> birthDayList = [];
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
@@ -183,10 +181,13 @@ class FirebaseServices {
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
       for (int i = 0; i < birthDayList.length; i++) {
-        dateTimeList.add(DateTime(DateTime.now().year,
-            birthDayList[i].dob.month, birthDayList[i].dob.day));
-
-        //  print(birthDayList[i].dob);
+        dateTimeList.add(
+          DateTime(
+            DateTime.now().year,
+            birthDayList[i].dob.month,
+            birthDayList[i].dob.day,
+          ),
+        );
       }
 
       for (int i = 0; i < dateTimeList.length; i++) {
@@ -196,52 +197,31 @@ class FirebaseServices {
           gender: birthDayList[i].gender,
           imageUrl: birthDayList[i].imageUrl,
           dob: dateTimeList[i],
+          actualUserDobYear: birthDayList[i].actualUserDobYear,
         );
 
         sortedBirthDayList.add(model);
-
-        // print(sortedBirthDayList[i].dob);
       }
 
       sortedBirthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
-      // for (int i = 0; i < sortedBirthDayList.length; i++) {
-      //   print('After Sort: ${sortedBirthDayList[i].dob}');
-      //   //print('Before Sort: ${birthDayList[i].dob}');
-      // }
+      for (int i = 0; i < sortedBirthDayList.length; i++) {
+        if (sortedBirthDayList[i].dob.month < now.month ||
+            sortedBirthDayList[i].dob.day < now.day) {
+          listOfOldDates.add(sortedBirthDayList[i]);
+        }
+      }
 
-      // List<DateTime> dateTimeList = [];
-      // DateFormat format = DateFormat("yyyy-MM-dd");
+      listOfOldDates.sort(((a, b) => a.dob.compareTo(b.dob)));
 
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   dateTimeList.add(format.parse(birthDayList[i].dob.toString()));
-      // }
+      sortedBirthDayList
+          .removeWhere((element) => listOfOldDates.contains(element));
 
-      // dateTimeList.sort((a, b) => a.compareTo(b));
-
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   print(birthDayList[
-      //   i].dob);
-      // }
-
-      // birthDayList.sort()
-
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   print("dob: ${sortedBirthDayList[i].dob}   :: name: ${sortedBirthDayList[i].name}");
-      // }
+      sortedBirthDayList.addAll(listOfOldDates);
 
       birthDayProvider.getBirthDayFromFirebaseService(list: sortedBirthDayList);
-
-      // if (birthDayList.isNotEmpty) {
-
-      // }
     } catch (e) {
       debugPrint('Error: $e');
-    }
-    if (addedData != null) {
-      return 'Adding Birthday Data Mode';
-    } else {
-      return 'Not Adding Birthday Data Mode';
     }
   }
 

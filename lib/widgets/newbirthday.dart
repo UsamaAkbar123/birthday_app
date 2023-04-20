@@ -241,42 +241,6 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       gender: selectedGender,
                       dateOfBirth: dateTime,
                     );
-                    //     .then((imageUrl) async {
-                    //   if (imageUrl != null) {
-                    //     var uuid = const Uuid();
-                    //     body = {
-                    //       "id": uuid.v4().toString(),
-                    //       "Name": _nameController.text,
-                    //       "Gender": selectedGender,
-                    //       "Date_Of_Brith": dateTime,
-                    //       "image": imageUrl,
-                    //     };
-                    //     await FirebaseServices()
-                    //         .addUserBrithDayInfo(
-                    //             data: body,
-                    //             context: context,
-                    //             isImageNull: false)
-                    //         .then((value) {
-                    //       FirebaseServices()
-                    //           .getBirthDayInfo(context: context)
-                    //           .then(
-                    //         (value) {
-                    //           Navigator.of(context).pop();
-                    //           Navigator.of(context).pop();
-                    //           ScaffoldMessenger.of(context).showSnackBar(
-                    //             const SnackBar(
-                    //               content: Text('Data added successfully'),
-                    //               backgroundColor: Colors.greenAccent,
-                    //             ),
-                    //           );
-                    //         },
-                    //       );
-                    //       // context.pop();
-                    //     });
-                    //   } else {
-                    //     debugPrint('Image Url not found');
-                    //   }
-                    // });
                   } else {
                     var uuid = const Uuid();
                     body = {
@@ -285,6 +249,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       "Gender": selectedGender,
                       "Date_Of_Brith": dateTime,
                       "image": 'assets/icons/usericon.png',
+                      "actual_user_dob_year": dateTime?.year,
                     };
                     await FirebaseServices()
                         .addUserBirthDayInfo(
@@ -292,29 +257,8 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       context: context,
                       isImageNull: true,
                     );
-                    //     .then(
-                    //   (value) {
-                    //     FirebaseServices()
-                    //         .getBirthDayInfo(context: context)
-                    //         .then(
-                    //       (value) {
-                    //         Navigator.of(context).pop();
-                    //         Navigator.of(context).pop();
-                    //         ScaffoldMessenger.of(context).showSnackBar(
-                    //           const SnackBar(
-                    //             content: Text('Data added successfully'),
-                    //             backgroundColor: Colors.greenAccent,
-                    //           ),
-                    //         );
-                    //       },
-                    //     );
-                    //     // context.pop();
-                    //   },
-                    // );
                   }
                 }
-                // navProvider.setNavIndex(1);
-                // navProvider.setNavIndex(0);
               },
               child: Container(
                 height: context.height * 0.07,
