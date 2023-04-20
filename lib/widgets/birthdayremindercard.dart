@@ -1,11 +1,9 @@
-import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradient_borders/gradient_borders.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class BirthdayReminderCard extends StatefulWidget {
@@ -46,14 +44,27 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
     // print('user date: $date');
     // print('current date: $nextBirthday');
 
-
     if (date == nextBirthday) {
       // print('llllllllllllllllllllllll');
       days = 0.toString();
       setState(() {});
     } else {
-      currentYearDataTime = DateTime(
-          now.year, widget.userDateOfBirth.month, widget.userDateOfBirth.day);
+
+      if(widget.userDateOfBirth.month < now.month || widget.userDateOfBirth.day < now.day){
+        currentYearDataTime = DateTime(
+          now.year + 1,
+          widget.userDateOfBirth.month,
+          widget.userDateOfBirth.day,
+        );
+      }else{
+        currentYearDataTime = DateTime(
+          now.year,
+          widget.userDateOfBirth.month,
+          widget.userDateOfBirth.day,
+        );
+      }
+
+
       final difference = currentYearDataTime.difference(nextBirthday);
       // print('days calculate: ${difference.inDays}');
       // if(difference.inDays == 0 || difference.inDays == 1 || difference.inDays == 2){
@@ -65,7 +76,6 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
       // }
       days = (difference.inDays).toString();
       setState(() {});
-
     }
 
     // if (nextBirthday.isBefore(now)) {

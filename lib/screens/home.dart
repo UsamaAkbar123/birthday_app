@@ -107,51 +107,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class FeatureWidget extends StatelessWidget {
-  const FeatureWidget({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: context.width * 0.25,
-      width: context.width * 0.25,
-      padding: const EdgeInsets.all(3),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: AppColors.white,
-        border: const GradientBoxBorder(
-          width: 2,
-          gradient: LinearGradient(
-            colors: AppColors.gradient,
-          ),
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: const LinearGradient(
-            colors: AppColors.gradient,
-          ),
-        ),
-        padding: const EdgeInsets.all(10),
-        alignment: Alignment.bottomLeft,
-        child: SizedBox(
-          width: (context.width * 0.2) / 2,
-          child: Text(
-            title,
-            style: const TextStyle().medium12,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class FeatureWidget extends StatelessWidget {
+//   const FeatureWidget({
+//     super.key,
+//     required this.title,
+//   });
+//
+//   final String title;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: context.width * 0.25,
+//       width: context.width * 0.25,
+//       padding: const EdgeInsets.all(3),
+//       margin: const EdgeInsets.symmetric(horizontal: 10),
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16),
+//         color: AppColors.white,
+//         border: const GradientBoxBorder(
+//           width: 2,
+//           gradient: LinearGradient(
+//             colors: AppColors.gradient,
+//           ),
+//         ),
+//       ),
+//       child: Container(
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(12),
+//           gradient: const LinearGradient(
+//             colors: AppColors.gradient,
+//           ),
+//         ),
+//         padding: const EdgeInsets.all(10),
+//         alignment: Alignment.bottomLeft,
+//         child: SizedBox(
+//           width: (context.width * 0.2) / 2,
+//           child: Text(
+//             title,
+//             style: const TextStyle().medium12,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class MainHomeCard extends StatefulWidget {
   final BirthdayModel birthdayModel;
