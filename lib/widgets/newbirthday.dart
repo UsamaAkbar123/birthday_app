@@ -249,6 +249,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       "Gender": selectedGender,
                       "Date_Of_Brith": dateTime,
                       "image": 'assets/icons/usericon.png',
+                      "actual_user_dob_year": dateTime?.year,
                     };
                     await FirebaseServices()
                         .addUserBirthDayInfo(

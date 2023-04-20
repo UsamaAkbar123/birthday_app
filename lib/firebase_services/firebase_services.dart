@@ -138,6 +138,7 @@ class FirebaseServices {
           "Gender": gender,
           "Date_Of_Brith": dateOfBirth,
           "image": imageUrlLink,
+          "actual_user_dob_year": dateOfBirth?.year,
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -190,6 +191,7 @@ class FirebaseServices {
           gender: birthDayList[i].gender,
           imageUrl: birthDayList[i].imageUrl,
           dob: dateTimeList[i],
+          actualUserDobYear: birthDayList[i].actualUserDobYear,
         );
 
         sortedBirthDayList.add(model);

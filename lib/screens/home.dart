@@ -206,20 +206,16 @@ class _MainHomeCardState extends State<MainHomeCard> {
 
   @override
   void initState() {
+
+    print('Name: ${widget.birthdayModel.name}');
+    print('Dob: ${widget.birthdayModel.dob}');
+    print('actual year: ${widget.birthdayModel.actualUserDobYear}');
+
     currentYearDataTime = DateTime(
       widget.birthdayModel.dob.year,
       widget.birthdayModel.dob.month,
       widget.birthdayModel.dob.day,
     );
-
-    Duration difference = currentYearDataTime.difference(currentDateTime);
-
-    if (difference.inSeconds < 0) {
-      totalSeconds = 0;
-    } else {
-      totalSeconds = difference.inSeconds;
-
-    }
     _calculateDaysLeft(currentYearDataTime);
 
     super.initState();

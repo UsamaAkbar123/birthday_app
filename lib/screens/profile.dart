@@ -64,28 +64,30 @@ class ProfileCard extends StatefulWidget {
 
 class _ProfileCardState extends State<ProfileCard> {
   int userAgeInYear = 0;
-  String dateFormat = '';
+  String userActualDateOfBirth = '';
   String userFirstName = '';
 
   @override
   void initState() {
     var birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
-    int userYear = birthDayProvider.birthdayModel?.dob.year ?? 0;
+    int userYear = birthDayProvider.birthdayModel?.actualUserDobYear ?? 0;
     int currentYear = DateTime.now().year;
-    List<String> nameParts = birthDayProvider.birthdayModel!.name.trim().split(" ");
-    if(nameParts.isNotEmpty){
+    List<String> nameParts =
+        birthDayProvider.birthdayModel!.name.trim().split(" ");
+    if (nameParts.isNotEmpty) {
       userFirstName = nameParts[0];
-    }else{
+    } else {
       userFirstName = birthDayProvider.birthdayModel!.name;
     }
 
-
-
-
-
-    dateFormat =
-        DateFormat('dd MMMM yyyy').format(birthDayProvider.birthdayModel!.dob);
+    userActualDateOfBirth = DateFormat('dd MMMM yyyy').format(
+      DateTime(
+        birthDayProvider.birthdayModel?.actualUserDobYear ?? 0,
+        birthDayProvider.birthdayModel!.dob.month,
+        birthDayProvider.birthdayModel!.dob.day,
+      ),
+    );
 
     userAgeInYear = currentYear - userYear;
 
@@ -178,7 +180,7 @@ class _ProfileCardState extends State<ProfileCard> {
                             height: 8.h,
                           ),
                           Text(
-                            '$userAgeInYear years  |  $dateFormat',
+                            '$userAgeInYear years  |  $userActualDateOfBirth',
                             style: const TextStyle().regular14LighterGrey,
                           ),
                         ],
