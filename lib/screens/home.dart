@@ -180,13 +180,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
       now.month,
       now.day,
     );
-
-    // if (nextBirthday.isBefore(now)) {
-    //   nextBirthday.add(const Duration(days: 365));
-    // }
-
-    //final difference = nextBirthday.difference(now);
-
     if (date == nextBirthday) {
       days = 0.toString();
       setState(() {});
@@ -206,11 +199,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
 
   @override
   void initState() {
-
-    print('Name: ${widget.birthdayModel.name}');
-    print('Dob: ${widget.birthdayModel.dob}');
-    print('actual year: ${widget.birthdayModel.actualUserDobYear}');
-
     currentYearDataTime = DateTime(
       widget.birthdayModel.dob.year,
       widget.birthdayModel.dob.month,
