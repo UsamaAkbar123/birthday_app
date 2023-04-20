@@ -48,40 +48,34 @@ class FirebaseServices {
       await FirebaseServices()
           .getBirthDayInfo(context: context, addedData: data)
           .then((value) {
-        if (value == 'Adding Birthday Data Mode') {
-          final birthdayProvider =
-              Provider.of<BirthDayProvider>(context, listen: false);
-          // print('Response Value: $value');
-          List<BirthdayModel> birthdayListData =
-              birthdayProvider.birthdayModeList ?? [];
-          for (int i = 0; i < birthdayListData.length; i++) {
-            if (data['id'] == birthdayListData[i].id) {
-              if (i == 0) {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(5);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                birthdayProvider.setSelectedBirthDayCardIndex = i;
-                birthdayProvider.setSelectedBirthDayCardModel(
-                  data: birthdayListData[i],
-                );
-                break;
-              } else {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                birthdayProvider.setSelectedBirthDayCardIndex = i;
-                birthdayProvider.setSelectedBirthDayCardModel(
-                  data: birthdayListData[i],
-                );
-                break;
-              }
-              // birthdayProvider.s
+        final birthdayProvider =
+            Provider.of<BirthDayProvider>(context, listen: false);
+        // print('Response Value: $value');
+        List<BirthdayModel> birthdayListData =
+            birthdayProvider.birthdayModeList ?? [];
+        for (int i = 0; i < birthdayListData.length; i++) {
+          if (data['id'] == birthdayListData[i].id) {
+            if (i == 0) {
+              Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              birthdayProvider.setSelectedBirthDayCardIndex = i;
+              birthdayProvider.setSelectedBirthDayCardModel(
+                data: birthdayListData[i],
+              );
+              break;
+            } else {
+              Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              birthdayProvider.setSelectedBirthDayCardIndex = i;
+              birthdayProvider.setSelectedBirthDayCardModel(
+                data: birthdayListData[i],
+              );
+              break;
             }
+            // birthdayProvider.s
           }
-        } else {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Provider.of<NavProvider>(context, listen: false).setNavIndex(11);
         }
 
         // if(isImageNull != true){
@@ -162,7 +156,7 @@ class FirebaseServices {
 
   /// get data from firebase
 
-  Future<String> getBirthDayInfo(
+  Future<void> getBirthDayInfo(
       {required BuildContext context, Map<String, dynamic>? addedData}) async {
     final birthDayProvider =
         Provider.of<BirthDayProvider>(context, listen: false);
@@ -237,11 +231,6 @@ class FirebaseServices {
       // }
     } catch (e) {
       debugPrint('Error: $e');
-    }
-    if (addedData != null) {
-      return 'Adding Birthday Data Mode';
-    } else {
-      return 'Not Adding Birthday Data Mode';
     }
   }
 
