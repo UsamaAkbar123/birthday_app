@@ -163,6 +163,9 @@ class FirebaseServices {
         Provider.of<BirthDayProvider>(context, listen: false);
 
     try {
+      DateTime now = DateTime.now();
+
+      List<BirthdayModel> listOfOldDates = [];
       List<BirthdayModel> birthDayList = [];
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
@@ -178,10 +181,13 @@ class FirebaseServices {
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
       for (int i = 0; i < birthDayList.length; i++) {
-        dateTimeList.add(DateTime(DateTime.now().year,
-            birthDayList[i].dob.month, birthDayList[i].dob.day));
-
-        //  print(birthDayList[i].dob);
+        dateTimeList.add(
+          DateTime(
+            DateTime.now().year,
+            birthDayList[i].dob.month,
+            birthDayList[i].dob.day,
+          ),
+        );
       }
 
       for (int i = 0; i < dateTimeList.length; i++) {
@@ -195,64 +201,25 @@ class FirebaseServices {
         );
 
         sortedBirthDayList.add(model);
-
-        // print(sortedBirthDayList[i].dob);
       }
 
       sortedBirthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
-
-      DateTime now = DateTime.now();
-      int count = 0;
-
-      List<BirthdayModel> listOfOldDates = [];
-
       for (int i = 0; i < sortedBirthDayList.length; i++) {
-        if(sortedBirthDayList[i].dob.month < now.month || sortedBirthDayList[i].dob.day < now.day){
-          count++;
+        if (sortedBirthDayList[i].dob.month < now.month ||
+            sortedBirthDayList[i].dob.day < now.day) {
           listOfOldDates.add(sortedBirthDayList[i]);
-          sortedBirthDayList.remove(sortedBirthDayList[i]);
         }
-        // print('After Sort: ${sortedBirthDayList[i].dob}');
-        //print('Before Sort: ${birthDayList[i].dob}');
       }
-
-      print('Count: $count');
 
       listOfOldDates.sort(((a, b) => a.dob.compareTo(b.dob)));
 
+      sortedBirthDayList
+          .removeWhere((element) => listOfOldDates.contains(element));
+
       sortedBirthDayList.addAll(listOfOldDates);
-      for (int i = 0; i < sortedBirthDayList.length; i++) {
-
-        print('After Sort: ${sortedBirthDayList[i].dob}');
-        //print('Before Sort: ${birthDayList[i].dob}');
-      }
-
-      // List<DateTime> dateTimeList = [];
-      // DateFormat format = DateFormat("yyyy-MM-dd");
-
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   dateTimeList.add(format.parse(birthDayList[i].dob.toString()));
-      // }
-
-      // dateTimeList.sort((a, b) => a.compareTo(b));
-
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   print(birthDayList[
-      //   i].dob);
-      // }
-
-      // birthDayList.sort()
-
-      // for (int i = 0; i < birthDayList.length; i++) {
-      //   print("dob: ${sortedBirthDayList[i].dob}   :: name: ${sortedBirthDayList[i].name}");
-      // }
 
       birthDayProvider.getBirthDayFromFirebaseService(list: sortedBirthDayList);
-
-      // if (birthDayList.isNotEmpty) {
-
-      // }
     } catch (e) {
       debugPrint('Error: $e');
     }
