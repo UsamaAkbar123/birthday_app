@@ -201,17 +201,8 @@ class _MainHomeCardState extends State<MainHomeCard> {
       setState(() {});
     }
 
-    // if(difference == 0){
-    //   return 1;
-    // }
   }
 
-  // void getTimeDetails(int timeInSeconds) {
-  //   int day = (((timeInSeconds / 60) / 60) / 24).floor();
-  //   setState(() {
-  //     days = day.toString().length <= 1 ? "$day" : "$day";
-  //   });
-  // }
 
   @override
   void initState() {
@@ -228,7 +219,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
     } else {
       totalSeconds = difference.inSeconds;
 
-      // getTimeDetails(totalSeconds);
     }
     _calculateDaysLeft(currentYearDataTime);
 
@@ -254,7 +244,6 @@ class _MainHomeCardState extends State<MainHomeCard> {
               color: AppColors.grey.withOpacity(0.05),
               spreadRadius: 2,
               blurRadius: 50,
-              // changes position of shadow
             ),
           ],
         ),
@@ -266,7 +255,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
               days,
               style: GoogleFonts.rubik(
                 textStyle: TextStyle(
-                  fontSize: 70.sp,
+                  fontSize: days.length == 3 ? 50.sp : 70.sp,
                   fontWeight: FontWeight.w600,
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
