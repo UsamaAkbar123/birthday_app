@@ -228,9 +228,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   late Duration remainingTime;
 
   void getTimeDetails(int timeInSeconds) {
-
-
-
     int sec = timeInSeconds % 60;
     int min = (timeInSeconds / 60).floor() % 60;
     int hor = ((timeInSeconds / 60) / 60).floor() % 60;
@@ -261,25 +258,37 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   void initState() {
 
+    DateTime now = DateTime.now();
 
     userDateTime = Provider.of<BirthDayProvider>(context, listen: false)
         .birthdayModel!
         .dob;
 
-    currentYearDataTime = DateTime(
-      currentDateTime.year,
-      userDateTime.month,
-      userDateTime.day,
-    );
+    // currentYearDataTime = DateTime(
+    //   currentDateTime.year,
+    //   userDateTime.month,
+    //   userDateTime.day,
+    // );
 
-    currentDateTime = DateTime(
-      currentDateTime.year,
-      currentDateTime.month,
-      currentDateTime.day,
-    );
+    if(userDateTime.month < now.month || userDateTime.day < now.day){
+      print('Old data');
+      currentYearDataTime = DateTime(
+        currentDateTime.year + 1,
+        currentDateTime.month,
+        currentDateTime.day,
+      );
+    }else{
+      currentYearDataTime = DateTime(
+        currentDateTime.year,
+        userDateTime.month,
+        userDateTime.day,
+      );
+    }
+
 
     Duration difference = currentYearDataTime.difference(currentDateTime);
 
+    print('difference: $difference');
     if (difference.inSeconds < 0) {
       totalSeconds = 0;
     } else {
