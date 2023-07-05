@@ -133,10 +133,6 @@ class _ProfileCardState extends State<ProfileCard> {
                   ),
                 ),
               ),
-              // Image.asset(
-              //   'assets/icons/stard.png',
-              //   scale: 1.2,
-              // ),
             ],
           ),
           Padding(
@@ -276,7 +272,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       days = day == 0 ? "0${day + 1}" : "${day + 1}";
     });
 
-    print('day calculated: $day');
+    // print('day calculated: $day');
   }
 
   void startTimer() {

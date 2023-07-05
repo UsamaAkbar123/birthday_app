@@ -1,4 +1,3 @@
-import 'package:birthdates/screens/home.dart';
 import 'package:birthdates/screens/navscreen.dart';
 import 'package:flutter/material.dart';
 

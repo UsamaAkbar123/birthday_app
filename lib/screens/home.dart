@@ -10,7 +10,6 @@ import 'package:birthdates/widgets/horizontalcardlister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gradient_borders/gradient_borders.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -68,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    birthdayProvider.birthdayModeList?.length != 0
+                    birthdayProvider.birthdayModeList!.isNotEmpty
                         ? MainHomeCard(
                             birthdayModel:
                                 birthdayProvider.birthdayModeList![0],
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Upcoming',
                       style: const TextStyle().medium20,
                     ),
-                    birthdayProvider.birthdayModeList?.length != 0
+                    birthdayProvider.birthdayModeList!.isNotEmpty
                         ? HorizontalCardLister(
                             birthDayList:
                                 birthdayProvider.birthdayModeList ?? [])
@@ -184,7 +183,8 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if(widget.birthdayModel.dob.month < now.month || widget.birthdayModel.dob.day < now.day){
+      if (widget.birthdayModel.dob.month < now.month ||
+          widget.birthdayModel.dob.day < now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.birthdayModel.dob.month,
@@ -193,7 +193,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
         final difference = currentYearDataTime.difference(nextBirthday);
         days = (difference.inDays).toString();
         setState(() {});
-      }else{
+      } else {
         currentYearDataTime = DateTime(
           now.year,
           widget.birthdayModel.dob.month,
@@ -212,9 +212,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
       // days = (difference.inDays).toString();
       // setState(() {});
     }
-
   }
-
 
   @override
   void initState() {

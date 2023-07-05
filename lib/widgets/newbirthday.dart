@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:birthdates/providers/navprovider.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/utils/colors.dart';
@@ -52,7 +50,6 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    var navProvider = Provider.of<NavProvider>(context, listen: false);
     return Container(
       height: context.height * 0.775,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -251,8 +248,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       "image": 'assets/icons/usericon.png',
                       "actual_user_dob_year": dateTime?.year,
                     };
-                    await FirebaseServices()
-                        .addUserBirthDayInfo(
+                    await FirebaseServices().addUserBirthDayInfo(
                       data: body,
                       context: context,
                       isImageNull: true,
