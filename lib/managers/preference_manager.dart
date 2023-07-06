@@ -4,9 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class _Keys {
   static const deviceTaken = "device_taken";
   static const birthdayReminder = "birthday_reminder";
+  static const appIconIndex = "app_icon_index";
 }
 
-class PreferenceManager{
+class PreferenceManager {
   /// Shared object which is used. No new instances are created for this class
   static final PreferenceManager _shared = PreferenceManager._internal();
 
@@ -27,14 +28,14 @@ class PreferenceManager{
 
 // Set prefs
   set prefs(SharedPreferences prefs) => {
-    if (_isInitialized)
-      {
-        debugPrint(
-            "🐞 WARNING: SharedPreferences are already initialized. Should only be initialized once.")
-      }
-    else
-      {_prefs = prefs}
-  };
+        if (_isInitialized)
+          {
+            debugPrint(
+                "🐞 WARNING: SharedPreferences are already initialized. Should only be initialized once.")
+          }
+        else
+          {_prefs = prefs}
+      };
 
   /// Initializes `SharedPreferences`. This has to be set after
   /// `WidgetsFlutterBinding.ensureInitialized();`. This ensures
@@ -44,14 +45,17 @@ class PreferenceManager{
     prefs = await SharedPreferences.getInstance();
   }
 
-
   /// `getTaken` get & set
   String get getDeviceToken => _prefs?.getString(_Keys.deviceTaken) ?? '';
-  set setDeviceToken(String value) => _prefs?.setString(_Keys.deviceTaken, value);
-
+  set setDeviceToken(String value) =>
+      _prefs?.setString(_Keys.deviceTaken, value);
 
   /// `reminder` get & set
   String get getReminder => _prefs?.getString(_Keys.birthdayReminder) ?? '';
-  set setReminder(String value) => _prefs?.setString(_Keys.birthdayReminder, value);
+  set setReminder(String value) =>
+      _prefs?.setString(_Keys.birthdayReminder, value);
 
+  /// `appIconIndex` get & set
+  int get getAppIconIndex => _prefs?.getInt(_Keys.appIconIndex) ?? -1;
+  set setAppIconIndex(int value) => _prefs?.setInt(_Keys.appIconIndex, value);
 }

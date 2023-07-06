@@ -32,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var navProvider = Provider.of<NavProvider>(context,listen: false);
+    var navProvider = Provider.of<NavProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const MyAppBar(
@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             value: _prefs.getReminder,
             // value: _prefs.getReminder,
             onPressed: () async {
-               navProvider.setNavIndex(10);
+              navProvider.setNavIndex(10);
             },
           ),
           SizedBox(
@@ -154,21 +154,29 @@ class IconChanger extends StatefulWidget {
 }
 
 class _IconChangerState extends State<IconChanger> {
-  int selectedIcon = 2;
+  int selectedIcon = -1;
+  PreferenceManager preferenceManager = PreferenceManager();
 
-  List<String> iconName = ['blackstar','bluestar','purplestar','lightstar'];
+  List<String> iconName = ['blackstar', 'bluestar', 'purplestar', 'lightstar'];
 
-  void changeIcon() async{
-    try{
-      if(await FlutterDynamicIcon.supportsAlternateIcons){
+  void changeIcon() async {
+    try {
+      if (await FlutterDynamicIcon.supportsAlternateIcons) {
         await FlutterDynamicIcon.setAlternateIconName(iconName[selectedIcon]);
         debugPrint("app icon change successfully");
         return;
       }
-    }
-    catch(e){
+    } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    if (preferenceManager.getAppIconIndex != -1) {
+      selectedIcon = preferenceManager.getAppIconIndex;
+    }
+    super.initState();
   }
 
   @override
@@ -196,9 +204,9 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 0;
-                changeIcon();
-                setState(() {
-                });
+                preferenceManager.setAppIconIndex = 0;
+                // changeIcon();
+                setState(() {});
               },
               child: SelectedIcon(
                 iconUrl: 'assets/icons/blackstar.png',
@@ -210,7 +218,8 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 1;
-                changeIcon();
+                preferenceManager.setAppIconIndex = 1;
+                // changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -223,7 +232,8 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 2;
-                changeIcon();
+                preferenceManager.setAppIconIndex = 2;
+                // changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -236,7 +246,8 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 3;
-                changeIcon();
+                preferenceManager.setAppIconIndex = 3;
+                // changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
