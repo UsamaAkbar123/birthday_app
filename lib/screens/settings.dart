@@ -4,6 +4,7 @@ import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:birthdates/managers/preference_manager.dart';
 import 'package:provider/provider.dart';
@@ -155,6 +156,21 @@ class IconChanger extends StatefulWidget {
 class _IconChangerState extends State<IconChanger> {
   int selectedIcon = 2;
 
+  List<String> iconName = ['blackstar','bluestar','purplestar','lightstar'];
+
+  void changeIcon() async{
+    try{
+      if(await FlutterDynamicIcon.supportsAlternateIcons){
+        await FlutterDynamicIcon.setAlternateIconName(iconName[selectedIcon]);
+        debugPrint("app icon change successfully");
+        return;
+      }
+    }
+    catch(e){
+      debugPrint(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -180,7 +196,9 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 0;
-                setState(() {});
+                changeIcon();
+                setState(() {
+                });
               },
               child: SelectedIcon(
                 iconUrl: 'assets/icons/blackstar.png',
@@ -192,6 +210,7 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 1;
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -204,6 +223,7 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 2;
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -216,6 +236,7 @@ class _IconChangerState extends State<IconChanger> {
             child: InkWell(
               onTap: () {
                 selectedIcon = 3;
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(

@@ -2,12 +2,76 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Need to upload image</string>
-    <key>NSCameraUsageDescription</key>
-    <string>Need to upload image</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Need to upload image</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>purplestar</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purplestar</string>
+				</array>
+			</dict>
+			<key>lightstar</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>lightstar</string>
+				</array>
+			</dict>
+			<key>bluestar</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>bluestar</string>
+				</array>
+			</dict>
+			<key>blackstar</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>blackstar</string>
+				</array>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconName</key>
+			<string></string>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string></string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+		<key>UINewsstandIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string></string>
+			</array>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
+			<key>UINewsstandBindingEdge</key>
+			<string>UINewsstandBindingEdgeLeft</string>
+		</dict>
+	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need to upload image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Need to upload image</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need to upload image</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
