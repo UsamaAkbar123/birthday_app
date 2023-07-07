@@ -205,7 +205,7 @@ class _IconChangerState extends State<IconChanger> {
               onTap: () {
                 selectedIcon = 0;
                 preferenceManager.setAppIconIndex = 0;
-                // changeIcon();
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -219,7 +219,7 @@ class _IconChangerState extends State<IconChanger> {
               onTap: () {
                 selectedIcon = 1;
                 preferenceManager.setAppIconIndex = 1;
-                // changeIcon();
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -233,7 +233,7 @@ class _IconChangerState extends State<IconChanger> {
               onTap: () {
                 selectedIcon = 2;
                 preferenceManager.setAppIconIndex = 2;
-                // changeIcon();
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
@@ -247,7 +247,7 @@ class _IconChangerState extends State<IconChanger> {
               onTap: () {
                 selectedIcon = 3;
                 preferenceManager.setAppIconIndex = 3;
-                // changeIcon();
+                changeIcon();
                 setState(() {});
               },
               child: SelectedIcon(
