@@ -1,8 +1,7 @@
 import 'dart:io';
-import 'package:birthdates/providers/navprovider.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
+
 import 'package:birthdates/firebase_services/firebase_services.dart';
+import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class NewBirthdayBottomSheet extends StatefulWidget {
   const NewBirthdayBottomSheet({super.key});
@@ -28,6 +28,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
   String imageName = '';
 
   final _formKey = GlobalKey<FormState>();
+  final PreferenceManager _prefs = PreferenceManager();
 
   Future pickImage() async {
     try {
@@ -52,7 +53,6 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    var navProvider = Provider.of<NavProvider>(context, listen: false);
     return Container(
       height: context.height * 0.775,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -245,14 +245,19 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                     var uuid = const Uuid();
                     body = {
                       "id": uuid.v4().toString(),
+                      "deviceToken": _prefs.getDeviceToken,
                       "Name": _nameController.text,
                       "Gender": selectedGender,
                       "Date_Of_Brith": dateTime,
                       "image": 'assets/icons/usericon.png',
                       "actual_user_dob_year": dateTime?.year,
+                      "notificationRemainderTime": [
+                        'on the day',
+                        '1 day before',
+                        '1 week before',
+                      ],
                     };
-                    await FirebaseServices()
-                        .addUserBirthDayInfo(
+                    await FirebaseServices().addUserBirthDayInfo(
                       data: body,
                       context: context,
                       isImageNull: true,

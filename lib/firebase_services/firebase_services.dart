@@ -39,10 +39,10 @@ class FirebaseServices {
       loadingDialogue(context);
     }
     fireStore
-        .collection('users')
-        .doc(_prefs.getDeviceToken)
         .collection('brith_day_info')
         .doc(data['id'])
+        // .collection('brith_day_info')
+        // .doc(data['id'])
         .set(data)
         .then((value) async {
       await FirebaseServices()
@@ -134,11 +134,17 @@ class FirebaseServices {
         var uuid = const Uuid();
         body = {
           "id": uuid.v4().toString(),
+          "deviceToken": _prefs.getDeviceToken,
           "Name": userName,
           "Gender": gender,
           "Date_Of_Brith": dateOfBirth,
           "image": imageUrlLink,
           "actual_user_dob_year": dateOfBirth?.year,
+          "notificationRemainderTime": [
+            'on the day',
+            '1 day before',
+            '1 week before',
+          ],
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -153,6 +159,41 @@ class FirebaseServices {
     });
 
     return imageUrl;
+  }
+
+  /// update the notification remainder
+  Future<void> updateNotificationRemainderList(
+      String uniqueId, String notificationRemainder) async {
+    try {
+      // Create a reference to the users collection in Firestore
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('brith_day_info');
+
+      // Query for documents with the given uniqueId
+      QuerySnapshot querySnapshot =
+          await usersCollection.where('deviceToken', isEqualTo: uniqueId).get();
+
+      // Iterate through the documents with the given uniqueId
+      for (DocumentSnapshot document in querySnapshot.docs) {
+        // Fetch the current items list from Firestore
+        List<dynamic> currentItems = document.get('notificationRemainderTime');
+        print(currentItems.length);
+
+        if (currentItems.length == 3) {
+          // If items count is 3, add the sender item to the list
+          currentItems.add(notificationRemainder);
+        } else if (currentItems.length == 4) {
+          // If items count is 4, override the last item with the sender item
+          currentItems[3] = notificationRemainder;
+        }
+
+        // Update the 'items' field in the document with the updated list
+        await document.reference
+            .update({'notificationRemainderTime': currentItems});
+      }
+    } catch (e) {
+      print("Error updating data: $e");
+    }
   }
 
   /// get data from firebase
@@ -170,13 +211,18 @@ class FirebaseServices {
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
       QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStore
-          .collection('users')
-          .doc(_prefs.getDeviceToken)
+          // .collection('users')
+          // .doc(_prefs.getDeviceToken)
           .collection('brith_day_info')
+          .where('deviceToken', isEqualTo: _prefs.getDeviceToken)
           .get();
+
+      print('querysnapshot==> ${querySnapshot.size}');
 
       birthDayList =
           querySnapshot.docs.map((doc) => BirthdayModel.fromMap(doc)).toList();
+
+      print('birthDayList==> $birthDayList');
 
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
@@ -193,11 +239,13 @@ class FirebaseServices {
       for (int i = 0; i < dateTimeList.length; i++) {
         BirthdayModel model = BirthdayModel(
           id: birthDayList[i].id,
+          deviceToken: birthDayList[i].deviceToken,
           name: birthDayList[i].name,
           gender: birthDayList[i].gender,
           imageUrl: birthDayList[i].imageUrl,
           dob: dateTimeList[i],
           actualUserDobYear: birthDayList[i].actualUserDobYear,
+          notificationRemainderTime: [],
         );
 
         sortedBirthDayList.add(model);

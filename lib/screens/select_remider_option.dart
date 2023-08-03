@@ -1,3 +1,4 @@
+import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
@@ -15,13 +16,10 @@ class Item {
 }
 
 const items = [
-  Item(prefix: 'on the day', helper: ''),
-  Item(prefix: '1 day before', helper: ''),
   Item(prefix: '2 day before', helper: ''),
   Item(prefix: '3 day before', helper: ''),
   Item(prefix: '4 day before', helper: ''),
   Item(prefix: '5 day before', helper: ''),
-  Item(prefix: 'one week before', helper: ''),
 ];
 
 class SelectReminderOptions extends StatefulWidget {
@@ -33,33 +31,6 @@ class SelectReminderOptions extends StatefulWidget {
 
 class _SelectReminderOptionsState extends State<SelectReminderOptions> {
   final PreferenceManager _prefs = PreferenceManager();
-
-  List<int> reminderList = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-  ];
 
   var _selectedIndex = -1;
 
@@ -99,7 +70,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                   (index) => GestureDetector(
                     onTap: () {
                       setState(() => _selectedIndex = index);
-                      _prefs.setReminder =  items[index].prefix.toString();
+                      _prefs.setReminder = items[index].prefix.toString();
+                      FirebaseServices().updateNotificationRemainderList(
+                          _prefs.getDeviceToken,
+                          items[index].prefix.toString());
                     },
                     child: buildCupertinoFormRow(
                       items[index].prefix,
