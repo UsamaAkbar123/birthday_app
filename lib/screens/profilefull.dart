@@ -133,10 +133,6 @@ class _ProfileCardState extends State<ProfileCard> {
                   ),
                 ),
               ),
-              // Image.asset(
-              //   'assets/icons/stard.png',
-              //   scale: 1.2,
-              // ),
             ],
           ),
           Padding(
@@ -189,18 +185,18 @@ class _ProfileCardState extends State<ProfileCard> {
                   // height: context.height * 0.03,
                   height: 20.h,
                 ),
-                Row(
+                const Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Expanded(child: Chipper(title: 'tech')),
                     Expanded(child: Chipper(title: 'sport')),
                     Expanded(child: Chipper(title: 'football')),
                     Expanded(child: Chipper(title: 'design')),
                   ],
                 ),
-                Row(
+                const Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Expanded(child: Chipper(title: 'parties')),
                     Expanded(child: Chipper(title: 'tech')),
                     Expanded(child: Chipper(title: 'concerts')),
@@ -276,7 +272,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       days = day == 0 ? "0${day + 1}" : "${day + 1}";
     });
 
-    print('day calculated: $day');
+    // print('day calculated: $day');
   }
 
   void startTimer() {

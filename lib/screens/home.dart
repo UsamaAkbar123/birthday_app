@@ -10,7 +10,6 @@ import 'package:birthdates/widgets/horizontalcardlister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gradient_borders/gradient_borders.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -68,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    birthdayProvider.birthdayModeList?.length != 0
+                    birthdayProvider.birthdayModeList!.isNotEmpty
                         ? MainHomeCard(
                             birthdayModel:
                                 birthdayProvider.birthdayModeList![0],
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Upcoming',
                       style: const TextStyle().medium20,
                     ),
-                    birthdayProvider.birthdayModeList?.length != 0
+                    birthdayProvider.birthdayModeList!.isNotEmpty
                         ? HorizontalCardLister(
                             birthDayList:
                                 birthdayProvider.birthdayModeList ?? [])
@@ -106,52 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 }
-
-// class FeatureWidget extends StatelessWidget {
-//   const FeatureWidget({
-//     super.key,
-//     required this.title,
-//   });
-//
-//   final String title;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: context.width * 0.25,
-//       width: context.width * 0.25,
-//       padding: const EdgeInsets.all(3),
-//       margin: const EdgeInsets.symmetric(horizontal: 10),
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(16),
-//         color: AppColors.white,
-//         border: const GradientBoxBorder(
-//           width: 2,
-//           gradient: LinearGradient(
-//             colors: AppColors.gradient,
-//           ),
-//         ),
-//       ),
-//       child: Container(
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(12),
-//           gradient: const LinearGradient(
-//             colors: AppColors.gradient,
-//           ),
-//         ),
-//         padding: const EdgeInsets.all(10),
-//         alignment: Alignment.bottomLeft,
-//         child: SizedBox(
-//           width: (context.width * 0.2) / 2,
-//           child: Text(
-//             title,
-//             style: const TextStyle().medium12,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class MainHomeCard extends StatefulWidget {
   final BirthdayModel birthdayModel;
@@ -184,7 +137,8 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if(widget.birthdayModel.dob.month < now.month || widget.birthdayModel.dob.day < now.day){
+      if (widget.birthdayModel.dob.month < now.month ||
+          widget.birthdayModel.dob.day < now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.birthdayModel.dob.month,
@@ -193,7 +147,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
         final difference = currentYearDataTime.difference(nextBirthday);
         days = (difference.inDays).toString();
         setState(() {});
-      }else{
+      } else {
         currentYearDataTime = DateTime(
           now.year,
           widget.birthdayModel.dob.month,
@@ -212,9 +166,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
       // days = (difference.inDays).toString();
       // setState(() {});
     }
-
   }
-
 
   @override
   void initState() {

@@ -257,7 +257,6 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   @override
   void initState() {
-
     DateTime now = DateTime.now();
 
     userDateTime = Provider.of<BirthDayProvider>(context, listen: false)
@@ -270,13 +269,13 @@ class _TimerWidgetState extends State<TimerWidget> {
     //   userDateTime.day,
     // );
 
-    if(userDateTime.month < now.month || userDateTime.day < now.day){
+    if (userDateTime.month < now.month || userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
         currentDateTime.year + 1,
         userDateTime.month,
         userDateTime.day,
       );
-    }else{
+    } else {
       currentYearDataTime = DateTime(
         currentDateTime.year,
         userDateTime.month,
@@ -284,10 +283,9 @@ class _TimerWidgetState extends State<TimerWidget> {
       );
     }
 
-
     Duration difference = currentYearDataTime.difference(currentDateTime);
 
-    print('difference: $difference');
+    // print('difference: $difference');
     if (difference.inSeconds < 0) {
       totalSeconds = 0;
     } else {
