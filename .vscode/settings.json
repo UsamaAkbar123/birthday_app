@@ -4,6 +4,8 @@
         "birthdates",
         "birthdaystarcard",
         "brith",
+        "cupertino",
+        "datepicker",
         "fadedroundbtn",
         "Firestore",
         "giftcard",
@@ -19,6 +21,7 @@
         "screenutil",
         "Spiridonov",
         "Stepa",
+        "syncfusion",
         "usericon"
     ]
 }

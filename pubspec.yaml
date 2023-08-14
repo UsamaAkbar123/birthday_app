@@ -51,7 +51,7 @@ dependencies:
   flutter_screenutil: ^5.7.0
   uuid: ^3.0.6
   flutter_dynamic_icon: ^2.1.0
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^9.8.0+1
 
 
 

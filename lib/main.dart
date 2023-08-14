@@ -17,6 +17,7 @@ Future<void> main() async {
   await PreferenceManager().init();
   await FirebaseServices().getDeviceToken();
   await FirebaseNotification().initNotification();
+  await FirebaseNotification().initLocalNotifications();
   runApp(const MyApp());
 }
 
