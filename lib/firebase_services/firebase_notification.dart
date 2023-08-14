@@ -25,7 +25,7 @@ class FirebaseNotification {
 
   Future initLocalNotifications() async {
     const iOS = IOSInitializationSettings();
-    const android = AndroidInitializationSettings('@drawable/ic_launcher');
+    const android = AndroidInitializationSettings('@drawable/blackstar');
     const setting = InitializationSettings(
       android: android,
       iOS: iOS,
@@ -83,7 +83,7 @@ class FirebaseNotification {
               channel.id,
               channel.name,
               channelDescription: channel.description,
-              icon: '@drawable/ic_launcher',
+              icon: '@drawable/blackstar',
             ),
           ),
           payload: jsonEncode(remoteMessage.toMap()));

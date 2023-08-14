@@ -145,6 +145,13 @@ class FirebaseServices {
             '1 day before',
             '1 week before',
           ],
+          "onDayNotificationStatus": false,
+          "oneDayBeforeNotificationStatus": false,
+          "twoDaysBeforeNotificationStatus": false,
+          "threeDaysBeforeNotificationStatus": false,
+          "fourDaysBeforeNotificationStatus": false,
+          "fiveDaysBeforeNotificationStatus": false,
+          "oneWeekBeforeNotificationStatus": false,
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
