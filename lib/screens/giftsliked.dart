@@ -1,10 +1,8 @@
 import 'package:birthdates/providers/giftprovider.dart';
-import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/appbar.dart';
-import 'package:birthdates/widgets/birthdaystarcard.dart';
 import 'package:birthdates/widgets/giftcard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

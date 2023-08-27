@@ -145,6 +145,13 @@ class FirebaseServices {
             '1 day before',
             '1 week before',
           ],
+          "onDayNotificationStatus": false,
+          "oneDayBeforeNotificationStatus": false,
+          "twoDaysBeforeNotificationStatus": false,
+          "threeDaysBeforeNotificationStatus": false,
+          "fourDaysBeforeNotificationStatus": false,
+          "fiveDaysBeforeNotificationStatus": false,
+          "oneWeekBeforeNotificationStatus": false,
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -177,7 +184,7 @@ class FirebaseServices {
       for (DocumentSnapshot document in querySnapshot.docs) {
         // Fetch the current items list from Firestore
         List<dynamic> currentItems = document.get('notificationRemainderTime');
-        print(currentItems.length);
+        // print(currentItems.length);
 
         if (currentItems.length == 3) {
           // If items count is 3, add the sender item to the list
@@ -192,7 +199,7 @@ class FirebaseServices {
             .update({'notificationRemainderTime': currentItems});
       }
     } catch (e) {
-      print("Error updating data: $e");
+      debugPrint("Error updating data: $e");
     }
   }
 
@@ -217,12 +224,12 @@ class FirebaseServices {
           .where('deviceToken', isEqualTo: _prefs.getDeviceToken)
           .get();
 
-      print('querysnapshot==> ${querySnapshot.size}');
+      // print('querysnapshot==> ${querySnapshot.size}');
 
       birthDayList =
           querySnapshot.docs.map((doc) => BirthdayModel.fromMap(doc)).toList();
 
-      print('birthDayList==> $birthDayList');
+      // print('birthDayList==> $birthDayList');
 
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 

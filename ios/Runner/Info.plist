@@ -2,55 +2,63 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Birthdates</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>purplestar</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string></string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>purplestar</string>
-				</array>
-			</dict>
-			<key>lightstar</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string></string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>lightstar</string>
-				</array>
-			</dict>
-			<key>bluestar</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string></string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>bluestar</string>
-				</array>
-			</dict>
 			<key>blackstar</key>
 			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string></string>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>blackstar</string>
 				</array>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+			</dict>
+			<key>bluestar</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>bluestar</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+			</dict>
+			<key>lightstar</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>lightstar</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
+			</dict>
+			<key>purplestar</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purplestar</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string></string>
 			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
-			<key>CFBundleIconName</key>
-			<string></string>
 			<key>CFBundleIconFiles</key>
 			<array>
 				<string></string>
 			</array>
+			<key>CFBundleIconName</key>
+			<string></string>
 			<key>UIPrerenderedIcon</key>
 			<false/>
 		</dict>
@@ -60,24 +68,12 @@
 			<array>
 				<string></string>
 			</array>
-			<key>UINewsstandBindingType</key>
-			<string>UINewsstandBindingTypeMagazine</string>
 			<key>UINewsstandBindingEdge</key>
 			<string>UINewsstandBindingEdgeLeft</string>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
 		</dict>
 	</dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to upload image</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Need to upload image</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need to upload image</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Birthdates</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -92,7 +88,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Need to upload image</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need to upload image</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need to upload image</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -113,9 +119,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>
