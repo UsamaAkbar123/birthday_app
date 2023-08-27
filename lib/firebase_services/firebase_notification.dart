@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  // print(message.notification?.title);
+   print(message.notification?.title);
 }
 
 class FirebaseNotification {
@@ -70,6 +70,7 @@ class FirebaseNotification {
     /// get notification when app is in foreground state
     FirebaseMessaging.onMessage.listen((RemoteMessage remoteMessage) {
       final notification = remoteMessage.notification;
+      print(notification?.title);
       // AndroidNotification? android = remoteMessage.notification?.android;
 
       if (notification == null) return;
