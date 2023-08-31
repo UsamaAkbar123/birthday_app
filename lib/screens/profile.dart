@@ -269,7 +269,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     //   userDateTime.day,
     // );
 
-    if (userDateTime.month < now.month || userDateTime.day < now.day) {
+    if (userDateTime.month <= now.month && userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
         currentDateTime.year + 1,
         userDateTime.month,

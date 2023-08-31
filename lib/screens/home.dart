@@ -137,7 +137,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if (widget.birthdayModel.dob.month < now.month ||
+      if (widget.birthdayModel.dob.month <= now.month &&
           widget.birthdayModel.dob.day < now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,

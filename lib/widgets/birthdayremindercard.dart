@@ -41,19 +41,18 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
       now.day,
     );
 
-
     if (date == nextBirthday) {
       days = 0.toString();
       setState(() {});
     } else {
-
-      if(widget.userDateOfBirth.month < now.month || widget.userDateOfBirth.day < now.day){
+      if (widget.userDateOfBirth.month <= now.month &&
+          widget.userDateOfBirth.day < now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.userDateOfBirth.month,
           widget.userDateOfBirth.day,
         );
-      }else{
+      } else {
         currentYearDataTime = DateTime(
           now.year,
           widget.userDateOfBirth.month,
@@ -61,14 +60,11 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
         );
       }
 
-
       final difference = currentYearDataTime.difference(nextBirthday);
       days = (difference.inDays).toString();
       setState(() {});
     }
-
   }
-
 
   @override
   void initState() {
