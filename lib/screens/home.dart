@@ -169,6 +169,20 @@ class _MainHomeCardState extends State<MainHomeCard> {
     }
   }
 
+  String extractFirstName(String fullName) {
+    // Split the full name into parts using space as a separator
+    List<String> nameParts = fullName.split(' ');
+
+    // Check if there are multiple parts (i.e., first name and last name)
+    if (nameParts.length > 1) {
+      // Return only the first part (the first name)
+      return nameParts.first;
+    } else {
+      // If there's only one part (i.e., only the first name), return it as is
+      return fullName;
+    }
+  }
+
   @override
   void initState() {
     currentYearDataTime = DateTime(
@@ -233,7 +247,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
                     style: const TextStyle().regular14,
                   ),
                   Text(
-                    "${widget.birthdayModel.name}'s birthday",
+                    "${extractFirstName(widget.birthdayModel.name)}'s birthday",
                     style: const TextStyle().medium16,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
