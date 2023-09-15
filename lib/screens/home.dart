@@ -157,6 +157,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
         days = (difference.inDays).toString();
         setState(() {});
       }
+
       // currentYearDataTime = DateTime(
       //   now.year,
       //   widget.birthdayModel.dob.month,
