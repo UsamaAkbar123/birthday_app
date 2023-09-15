@@ -233,7 +233,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
                     style: const TextStyle().regular14,
                   ),
                   Text(
-                    widget.birthdayModel.name,
+                    "${widget.birthdayModel.name}'s birthday",
                     style: const TextStyle().medium16,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
