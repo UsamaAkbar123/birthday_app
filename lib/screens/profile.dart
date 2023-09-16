@@ -226,22 +226,24 @@ class _TimerWidgetState extends State<TimerWidget> {
   bool startCountDown = false;
   late DateTime userDateTime;
   late Duration remainingTime;
+  Duration difference = const Duration();
 
-  void getTimeDetails(int timeInSeconds) {
-    int sec = timeInSeconds % 60;
-    int min = (timeInSeconds / 60).floor() % 60;
-    int hor = ((timeInSeconds / 60) / 60).floor() % 60;
-    int day = (((timeInSeconds / 60) / 60) / 24).floor();
+  void getTimeDetails(int totalSecond) {
+    int sec = totalSecond % 60;
+    int min = (totalSecond ~/ 60) % 60;
+    int hor = (totalSecond ~/ 3600) % 24;
+    int day = difference.inDays;
     setState(() {
-      minutes = min.toString().length <= 1 ? "0$min" : "$min";
-      seconds = sec.toString().length <= 1 ? "0$sec" : "$sec";
-      hours = hor.toString().length <= 1 ? "0$hor" : "$hor";
-      days = day == 0 ? "0${day + 1}" : "${day + 1}";
+      minutes = min.toString().padLeft(2, '0');
+      seconds = sec.toString().padLeft(2, '0');
+      hours = hor.toString().padLeft(2, '0');
+      days = day.toString().padLeft(2, '0');
     });
   }
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
+
     timer = Timer.periodic(
       oneSec,
       (Timer timer) {
@@ -263,27 +265,35 @@ class _TimerWidgetState extends State<TimerWidget> {
         .birthdayModel!
         .dob;
 
-    // currentYearDataTime = DateTime(
-    //   currentDateTime.year,
-    //   userDateTime.month,
-    //   userDateTime.day,
-    // );
-
-    if (userDateTime.month <= now.month && userDateTime.day < now.day) {
+    if (userDateTime.month <= now.month || userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
         currentDateTime.year + 1,
         userDateTime.month,
         userDateTime.day,
+        23,
+        59,
+        59,
       );
     } else {
       currentYearDataTime = DateTime(
         currentDateTime.year,
         userDateTime.month,
         userDateTime.day,
+        23,
+        59,
+        59,
       );
     }
 
-    Duration difference = currentYearDataTime.difference(currentDateTime);
+    // print('current date: $currentDateTime');
+    // print('birthday date: $currentYearDataTime');
+
+    difference = currentYearDataTime.difference(currentDateTime);
+
+    // print('day difference: ${difference.inDays}');
+    // print('hours difference: ${difference.inHours % 24}');
+    // print('minutes difference: ${difference.inMinutes % 60}');
+    // print('seconds difference: ${difference.inSeconds % 60}');
 
     // print('difference: $difference');
     if (difference.inSeconds < 0) {
@@ -291,8 +301,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     } else {
       totalSeconds = difference.inSeconds;
     }
-
-    startTimer();
 
     Future.delayed(
       const Duration(seconds: 1),
@@ -304,6 +312,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         );
       },
     );
+
+    startTimer();
 
     super.initState();
   }
@@ -334,19 +344,12 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Column(
         children: [
           startCountDown
-              ? totalSeconds != 0
-                  ? CountDownWidget(
-                      days: days,
-                      hours: hours,
-                      minutes: minutes,
-                      seconds: seconds,
-                    )
-                  : const CountDownWidget(
-                      days: '00',
-                      hours: '00',
-                      minutes: '00',
-                      seconds: '00',
-                    )
+              ? CountDownWidget(
+                  days: days,
+                  hours: hours,
+                  minutes: minutes,
+                  seconds: seconds,
+                )
               : const Center(
                   child: CircularProgressIndicator(
                     color: AppColors.purple,
