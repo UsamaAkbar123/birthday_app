@@ -12,13 +12,7 @@ import 'package:provider/provider.dart';
 Future<void> handleBackgroundMessage(
   RemoteMessage message,
 ) async {
-  String? payload = message.data['id'];
-  print(payload);
-  if (payload != null && payload.isNotEmpty) {
-    Map<String, dynamic> payloadData = jsonDecode(message.toString());
-    print(payloadData);
-  }
-  //  print(message.notification?.title);
+  // print(message.notification?.title);
 }
 
 class FirebaseNotification {
@@ -72,7 +66,9 @@ class FirebaseNotification {
     await platform?.createNotificationChannel(channel);
   }
 
-  Future<void> initNotification() async {
+  Future<void> initNotification(BuildContext context) async {
+    var birthdayProvider =
+        Provider.of<BirthDayProvider>(context, listen: false);
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -89,10 +85,10 @@ class FirebaseNotification {
     // print(fcmToken);
 
     /// get notification when app is in background state
-    // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
-      await handleBackgroundMessage(message);
-    });
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    //   await handleBackgroundMessage(message);
+    // });
 
     /// get notification when app is in foreground state
     FirebaseMessaging.onMessage.listen((RemoteMessage remoteMessage) {
@@ -122,6 +118,29 @@ class FirebaseNotification {
       //   print(
       //       'Message also contained a notification: ${remoteMessage.notification}');
       // }
+    });
+
+    /// when app is open from terminated state
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      //print(message);
+      if (message == null) return;
+      BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
+          .firstWhere((element) => element.id == message.data['id']);
+
+      // handleMessage(message);
+      Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+      // birthdayProvider.setSelectedBirthDayCardIndex = 0;
+      birthdayProvider.setSelectedBirthDayCardModel(data: birthdayModel);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
+          .firstWhere((element) => element.id == message.data['id']);
+
+      // handleMessage(message);
+      Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+      // birthdayProvider.setSelectedBirthDayCardIndex = 0;
+      birthdayProvider.setSelectedBirthDayCardModel(data: birthdayModel);
     });
   }
 }

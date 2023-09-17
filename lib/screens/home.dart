@@ -28,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseServices().getBirthDayInfo(context: context);
     Future.delayed(const Duration(), () async {
       await FirebaseNotification().initLocalNotifications(context);
+      // ignore: use_build_context_synchronously
+      await FirebaseNotification().initNotification(context);
     });
     super.initState();
   }
