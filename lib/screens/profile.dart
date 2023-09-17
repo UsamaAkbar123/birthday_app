@@ -265,7 +265,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         .birthdayModel!
         .dob;
 
-    if (userDateTime.month <= now.month || userDateTime.day < now.day) {
+    if (userDateTime.month <= now.month && userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
         currentDateTime.year + 1,
         userDateTime.month,

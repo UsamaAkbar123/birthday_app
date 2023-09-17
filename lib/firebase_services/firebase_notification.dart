@@ -1,10 +1,23 @@
 import 'dart:convert';
 
 import 'package:birthdates/managers/preference_manager.dart';
+import 'package:birthdates/models/birthday_model.dart';
+import 'package:birthdates/providers/birthday_provider.dart';
+import 'package:birthdates/providers/navprovider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 
-Future<void> handleBackgroundMessage(RemoteMessage message) async {
+Future<void> handleBackgroundMessage(
+  RemoteMessage message,
+) async {
+  String? payload = message.data['id'];
+  print(payload);
+  if (payload != null && payload.isNotEmpty) {
+    Map<String, dynamic> payloadData = jsonDecode(message.toString());
+    print(payloadData);
+  }
   //  print(message.notification?.title);
 }
 
@@ -23,7 +36,10 @@ class FirebaseNotification {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future initLocalNotifications() async {
+  /// initialize flutter local notification
+  Future initLocalNotifications(BuildContext context) async {
+    var birthdayProvider =
+        Provider.of<BirthDayProvider>(context, listen: false);
     const iOS = IOSInitializationSettings();
     const android = AndroidInitializationSettings('@drawable/blackstar');
     const setting = InitializationSettings(
@@ -34,8 +50,16 @@ class FirebaseNotification {
     await flutterLocalNotificationsPlugin.initialize(
       setting,
       onSelectNotification: (payload) {
-        // final message = RemoteMessage.fromMap(jsonDecode(payload!));
+        final Map<String, dynamic> message = jsonDecode(payload!);
+        // print(message['data']['id']);
+
+        BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
+            .firstWhere((element) => element.id == message['data']['id']);
+
         // handleMessage(message);
+        Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
+        // birthdayProvider.setSelectedBirthDayCardIndex = 0;
+        birthdayProvider.setSelectedBirthDayCardModel(data: birthdayModel);
       },
       // onDidReceiveNotificationResponse: (details) {
       //   final message = RemoteMessage.fromMap(jsonDecode(details));
@@ -65,7 +89,10 @@ class FirebaseNotification {
     // print(fcmToken);
 
     /// get notification when app is in background state
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+      await handleBackgroundMessage(message);
+    });
 
     /// get notification when app is in foreground state
     FirebaseMessaging.onMessage.listen((RemoteMessage remoteMessage) {
