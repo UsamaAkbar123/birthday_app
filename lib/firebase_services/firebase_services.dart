@@ -229,7 +229,7 @@ class FirebaseServices {
       birthDayList =
           querySnapshot.docs.map((doc) => BirthdayModel.fromMap(doc)).toList();
 
-      print('birthDayList==> ${birthDayList[0].dob}');
+      // print('birthDayList==> ${birthDayList[0].dob}');
 
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
@@ -243,7 +243,7 @@ class FirebaseServices {
         );
       }
 
-      print('dateTimeList==> ${dateTimeList[0]}');
+      // print('dateTimeList==> ${dateTimeList[0]}');
 
       for (int i = 0; i < dateTimeList.length; i++) {
         BirthdayModel model = BirthdayModel(
@@ -259,19 +259,19 @@ class FirebaseServices {
 
         sortedBirthDayList.add(model);
       }
-      print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
+      // print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
 
       sortedBirthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
       for (int i = 0; i < sortedBirthDayList.length; i++) {
         if (sortedBirthDayList[i].dob.month <= now.month &&
             sortedBirthDayList[i].dob.day < now.day) {
-          print('object');
+          // print('object');
           listOfOldDates.add(sortedBirthDayList[i]);
         }
       }
 
-      print('listOfOldDates==> ${listOfOldDates.length}');
+      // print('listOfOldDates==> ${listOfOldDates.length}');
 
       if (listOfOldDates.isNotEmpty) {
         listOfOldDates.sort(((a, b) => a.dob.compareTo(b.dob)));
@@ -281,7 +281,7 @@ class FirebaseServices {
 
         sortedBirthDayList.addAll(listOfOldDates);
       }
-      print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
+      // print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
       birthDayProvider.getBirthDayFromFirebaseService(list: sortedBirthDayList);
     } catch (e) {
       debugPrint('Error: $e');
