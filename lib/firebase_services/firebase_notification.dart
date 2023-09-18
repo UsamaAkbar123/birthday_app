@@ -122,6 +122,7 @@ class FirebaseNotification {
 
     /// when app is open from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((message) {
+      print('tap terminated notification');
       //print(message);
       if (message == null) return;
       BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
@@ -129,17 +130,18 @@ class FirebaseNotification {
 
       // handleMessage(message);
       Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
-      // birthdayProvider.setSelectedBirthDayCardIndex = 0;
+      birthdayProvider.setSelectedBirthDayCardIndex = 0;
       birthdayProvider.setSelectedBirthDayCardModel(data: birthdayModel);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print('tap background notification');
       BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
           .firstWhere((element) => element.id == message.data['id']);
 
       // handleMessage(message);
       Provider.of<NavProvider>(context, listen: false).setNavIndex(4);
-      // birthdayProvider.setSelectedBirthDayCardIndex = 0;
+      birthdayProvider.setSelectedBirthDayCardIndex = 0;
       birthdayProvider.setSelectedBirthDayCardModel(data: birthdayModel);
     });
   }

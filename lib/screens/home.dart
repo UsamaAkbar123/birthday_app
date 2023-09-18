@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTab: () {
                               Provider.of<NavProvider>(context, listen: false)
                                   .setNavIndex(4);
-                              birthdayProvider.setSelectedBirthDayCardIndex = 0;
+                              // birthdayProvider.setSelectedBirthDayCardIndex = 0;
                               birthdayProvider.setSelectedBirthDayCardModel(
                                   data: birthdayProvider.birthdayModeList![0]);
                             },
