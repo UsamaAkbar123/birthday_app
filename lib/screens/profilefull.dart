@@ -185,18 +185,18 @@ class _ProfileCardState extends State<ProfileCard> {
                   // height: context.height * 0.03,
                   height: 20.h,
                 ),
-                const Row(
+                Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Expanded(child: Chipper(title: 'tech')),
                     Expanded(child: Chipper(title: 'sport')),
                     Expanded(child: Chipper(title: 'football')),
                     Expanded(child: Chipper(title: 'design')),
                   ],
                 ),
-                const Row(
+                Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Expanded(child: Chipper(title: 'parties')),
                     Expanded(child: Chipper(title: 'tech')),
                     Expanded(child: Chipper(title: 'concerts')),
