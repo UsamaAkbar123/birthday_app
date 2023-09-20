@@ -232,12 +232,12 @@ class _TimerWidgetState extends State<TimerWidget> {
     int sec = totalSecond % 60;
     int min = (totalSecond ~/ 60) % 60;
     int hor = (totalSecond ~/ 3600) % 24;
-    int day = difference.inDays;
+    int day = (totalSecond / 86400).truncate();
     setState(() {
-      minutes = min.toString().padLeft(2, '0');
-      seconds = sec.toString().padLeft(2, '0');
-      hours = hor.toString().padLeft(2, '0');
-      days = day.toString().padLeft(2, '0');
+      minutes = day == 0 ? '00': min.toString().padLeft(2, '0');
+      seconds = day == 0 ? '00':sec.toString().padLeft(2, '0');
+      hours = day == 0 ? '00':hor.toString().padLeft(2, '0');
+      days = day == 0 ? day.toString().padLeft(2, '0') : (day - 1).toString().padLeft(2, '0');
     });
   }
 
