@@ -61,7 +61,9 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
       }
 
       final difference = currentYearDataTime.difference(nextBirthday);
-      days = (difference.inDays).toString();
+      // days = (difference.inDays).toString();
+      int res = (difference.inSeconds / 86400).truncate();
+      days = res == 0 ? res.toString() : (res - 1).toString();
       setState(() {});
     }
   }

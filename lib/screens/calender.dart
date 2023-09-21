@@ -285,8 +285,8 @@ class _CalenderWidgetState extends State<CalenderWidget> {
         rangeSelectionMode: RangeSelectionMode.enforced,
         calendarFormat: CalendarFormat.month,
         focusedDay: _focusedDay,
-        firstDay: DateTime(2022, 2, 1),
-        lastDay: DateTime(2023, 12, 1),
+        firstDay: DateTime(2000, 1, 1),
+        lastDay: DateTime(2050, 12, 1),
         selectedDayPredicate: (day) {
           return isSameDay(day, _focusedDay);
         },

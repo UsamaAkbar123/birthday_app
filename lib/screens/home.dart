@@ -1,3 +1,4 @@
+import 'package:birthdates/firebase_services/firebase_notification.dart';
 import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/models/birthday_model.dart';
 import 'package:birthdates/providers/birthday_provider.dart';
@@ -25,6 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     FirebaseServices().getBirthDayInfo(context: context);
+    Future.delayed(const Duration(), () async {
+      await FirebaseNotification().initLocalNotifications(context);
+      // ignore: use_build_context_synchronously
+      await FirebaseNotification().initNotification(context);
+    });
     super.initState();
   }
 
@@ -74,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTab: () {
                               Provider.of<NavProvider>(context, listen: false)
                                   .setNavIndex(4);
-                              birthdayProvider.setSelectedBirthDayCardIndex = 0;
+                              // birthdayProvider.setSelectedBirthDayCardIndex = 0;
                               birthdayProvider.setSelectedBirthDayCardModel(
                                   data: birthdayProvider.birthdayModeList![0]);
                             },
@@ -145,7 +151,9 @@ class _MainHomeCardState extends State<MainHomeCard> {
           widget.birthdayModel.dob.day,
         );
         final difference = currentYearDataTime.difference(nextBirthday);
-        days = (difference.inDays).toString();
+        // days = (difference.inDays).toString();
+        int res = (difference.inSeconds / 86400).truncate();
+        days = res == 0 ? res.toString() : (res - 1).toString();
         setState(() {});
       } else {
         currentYearDataTime = DateTime(
@@ -157,6 +165,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
         days = (difference.inDays).toString();
         setState(() {});
       }
+
       // currentYearDataTime = DateTime(
       //   now.year,
       //   widget.birthdayModel.dob.month,
@@ -165,6 +174,20 @@ class _MainHomeCardState extends State<MainHomeCard> {
       // final difference = currentYearDataTime.difference(nextBirthday);
       // days = (difference.inDays).toString();
       // setState(() {});
+    }
+  }
+
+  String extractFirstName(String fullName) {
+    // Split the full name into parts using space as a separator
+    List<String> nameParts = fullName.split(' ');
+
+    // Check if there are multiple parts (i.e., first name and last name)
+    if (nameParts.length > 1) {
+      // Return only the first part (the first name)
+      return nameParts.first;
+    } else {
+      // If there's only one part (i.e., only the first name), return it as is
+      return fullName;
     }
   }
 
@@ -232,7 +255,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
                     style: const TextStyle().regular14,
                   ),
                   Text(
-                    widget.birthdayModel.name,
+                    "${extractFirstName(widget.birthdayModel.name)}'s birthday",
                     style: const TextStyle().medium16,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,

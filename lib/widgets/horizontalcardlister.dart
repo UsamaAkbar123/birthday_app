@@ -75,7 +75,7 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
                           onPressed: () {
                             Provider.of<NavProvider>(context, listen: false)
                                 .setNavIndex(4);
-                            birthDayProvider.setSelectedBirthDayCardIndex = i;
+                            // birthDayProvider.setSelectedBirthDayCardIndex = i;
                             birthDayProvider.setSelectedBirthDayCardModel(
                                 data: widget.birthDayList[i]);
                           },

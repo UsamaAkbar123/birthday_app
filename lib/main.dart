@@ -1,4 +1,4 @@
-import 'package:birthdates/firebase_services/firebase_notification.dart';
+// import 'package:birthdates/firebase_services/firebase_notification.dart';
 import 'package:birthdates/providers/birthday_provider.dart';
 import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/routes.dart';
@@ -16,8 +16,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await PreferenceManager().init();
   await FirebaseServices().getDeviceToken();
-  await FirebaseNotification().initNotification();
-  await FirebaseNotification().initLocalNotifications();
+  // await FirebaseNotification().initNotification();
+  // await FirebaseNotification().initLocalNotifications();
   runApp(const MyApp());
 }
 

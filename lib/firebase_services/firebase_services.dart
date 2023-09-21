@@ -41,8 +41,6 @@ class FirebaseServices {
     fireStore
         .collection('brith_day_info')
         .doc(data['id'])
-        // .collection('brith_day_info')
-        // .doc(data['id'])
         .set(data)
         .then((value) async {
       await FirebaseServices()
@@ -74,28 +72,9 @@ class FirebaseServices {
               );
               break;
             }
-            // birthdayProvider.s
           }
         }
-
-        // if(isImageNull != true){
-        //
-        // }
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content: Text('Data added successfully'),
-        //     backgroundColor: Colors.greenAccent,
-        //   ),
-        // );
       });
-      // Navigator.of(context).pop();
-      // Navigator.of(context).pop();
-      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //   content: Text('Data added successfully'),
-      //   backgroundColor: Colors.greenAccent,
-      // ));
-      // Navigator.of(context).pop();
-      // debugPrint('Data added successfully');
     }).catchError((error) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -218,8 +197,6 @@ class FirebaseServices {
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
       QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStore
-          // .collection('users')
-          // .doc(_prefs.getDeviceToken)
           .collection('brith_day_info')
           .where('deviceToken', isEqualTo: _prefs.getDeviceToken)
           .get();
@@ -295,26 +272,11 @@ class FirebaseServices {
     required BuildContext context,
   }) async {
     loadingDialogue(context);
-    await fireStore
-        .collection('users')
-        .doc(_prefs.getDeviceToken)
-        .collection('brith_day_info')
-        .doc(id)
-        .delete()
-        .then((value) {
+    await fireStore.collection('brith_day_info').doc(id).delete().then((value) {
       FirebaseServices().getBirthDayInfo(context: context).then((value) {
         Navigator.of(context).pop();
         Provider.of<NavProvider>(context, listen: false).setNavIndex(1);
-        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //   content: Text('Data deleted successfully'),
-        //   backgroundColor: Colors.greenAccent,
-        // ));
       }).catchError((error) {
-        Navigator.of(context).pop();
-        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //   content: Text('Something went Wrong'),
-        //   backgroundColor: Colors.redAccent,
-        // ));
         debugPrint('Error While fetching data from firebase: $error');
       });
     }).catchError((error) {
