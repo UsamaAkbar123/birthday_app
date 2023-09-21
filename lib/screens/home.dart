@@ -153,7 +153,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
         final difference = currentYearDataTime.difference(nextBirthday);
         // days = (difference.inDays).toString();
         int res = (difference.inSeconds / 86400).truncate();
-        days = res == 0 ? res.toString() : (res - 1).toString();
+        days = res == 0 ?  res.toString() : (res - 1).toString();
         setState(() {});
       } else {
         currentYearDataTime = DateTime(
@@ -162,7 +162,9 @@ class _MainHomeCardState extends State<MainHomeCard> {
           widget.birthdayModel.dob.day,
         );
         final difference = currentYearDataTime.difference(nextBirthday);
-        days = (difference.inDays).toString();
+        // days = (difference.inDays).toString();
+        int res = (difference.inSeconds / 86400).truncate();
+        days = res == 0 ?  res.toString() : (res - 1).toString();
         setState(() {});
       }
 
