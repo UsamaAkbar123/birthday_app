@@ -7,6 +7,7 @@ import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/appbar.dart';
 import 'package:birthdates/widgets/birthdaystarcard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -219,7 +220,7 @@ class _CalenderWidgetState extends State<CalenderWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -265,21 +266,21 @@ class _CalenderWidgetState extends State<CalenderWidget> {
           ),
         ),
         headerStyle: HeaderStyle(
-          headerMargin: const EdgeInsets.only(bottom: 15, top: 5),
+          headerMargin: EdgeInsets.only(bottom: 15.h, top: 5.h),
           titleTextStyle: const TextStyle().medium20,
           formatButtonVisible: false,
           titleCentered: true,
-          leftChevronMargin: const EdgeInsets.only(left: 40),
-          rightChevronMargin: const EdgeInsets.only(right: 40),
-          leftChevronIcon: const Icon(
+          // leftChevronMargin: const EdgeInsets.only(left: 40),
+          // rightChevronMargin: const EdgeInsets.only(right: 40),
+          leftChevronIcon: Icon(
             Icons.arrow_back_ios,
             color: AppColors.lighterGrey,
-            size: 20,
+            size: 20.w,
           ),
-          rightChevronIcon: const Icon(
+          rightChevronIcon: Icon(
             Icons.arrow_forward_ios,
             color: AppColors.lighterGrey,
-            size: 20,
+            size: 20.w,
           ),
         ),
         rangeSelectionMode: RangeSelectionMode.enforced,
