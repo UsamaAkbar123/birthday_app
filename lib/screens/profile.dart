@@ -113,7 +113,8 @@ class _ProfileCardState extends State<ProfileCard> {
         ],
       ),
       // height: context.height * 0.3,
-      width: context.width,
+      // width: context.width,
+      width: 327.w,
       child: Column(
         children: [
           Row(
@@ -267,7 +268,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         .birthdayModel!
         .dob;
 
-    print('user date time: $userDateTime');
+    // print('user date time: $userDateTime');
 
     if (userDateTime.month <= now.month && userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
@@ -344,7 +345,9 @@ class _TimerWidgetState extends State<TimerWidget> {
           ),
         ],
       ),
-      width: context.width,
+      width: 327.w,
+      height: 83.h,
+      // width: context.width,
       child: Column(
         children: [
           startCountDown
