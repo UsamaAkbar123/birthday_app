@@ -46,7 +46,7 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
       setState(() {});
     } else {
       if (widget.userDateOfBirth.month <= now.month &&
-          widget.userDateOfBirth.day < now.day) {
+          widget.userDateOfBirth.day <= now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.userDateOfBirth.month,

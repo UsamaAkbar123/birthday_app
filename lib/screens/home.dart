@@ -143,19 +143,20 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if (widget.birthdayModel.dob.month <= now.month &&
-          widget.birthdayModel.dob.day < now.day) {
+      if (date.month <= now.month && date.day <= now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.birthdayModel.dob.month,
           widget.birthdayModel.dob.day,
         );
+
         final difference = currentYearDataTime.difference(nextBirthday);
         days = (difference.inDays).toString();
         // int res = (difference.inSeconds / 86400).truncate();
         // days = res == 0 ?  res.toString() : (res - 1).toString();
         setState(() {});
       } else {
+        // print('current year data time : $currentYearDataTime');
         currentYearDataTime = DateTime(
           now.year,
           widget.birthdayModel.dob.month,

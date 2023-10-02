@@ -242,7 +242,7 @@ class FirebaseServices {
 
       for (int i = 0; i < sortedBirthDayList.length; i++) {
         if (sortedBirthDayList[i].dob.month <= now.month &&
-            sortedBirthDayList[i].dob.day < now.day) {
+            sortedBirthDayList[i].dob.day <= now.day) {
           // print('object');
           listOfOldDates.add(sortedBirthDayList[i]);
         }

@@ -59,19 +59,28 @@ class _CalenderScreenState extends State<CalenderScreen> {
       date.day,
     );
 
-    if (nextBirthday.isBefore(now)) {
-      nextBirthday.add(const Duration(days: 365));
-    }
+    // if (nextBirthday.isBefore(now)) {
+    //   nextBirthday.add(const Duration(days: 365));
+    // }
 
     if (userBirthDayDataTime == nextBirthday) {
       days.add(0.toString());
       setState(() {});
     } else {
-      userBirthDayDataTime = DateTime(
-        now.year,
-        date.month,
-        date.day,
-      );
+      if (date.month <= now.month && date.day <= now.day) {
+        userBirthDayDataTime = DateTime(
+          now.year + 1,
+          date.month,
+          date.day,
+        );
+      } else {
+        userBirthDayDataTime = DateTime(
+          now.year,
+          date.month,
+          date.day,
+        );
+      }
+
       final difference = userBirthDayDataTime.difference(nextBirthday);
       days.add((difference.inDays).toString());
       setState(() {});
