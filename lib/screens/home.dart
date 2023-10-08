@@ -134,6 +134,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
 
   void _calculateDaysLeft(DateTime date) {
     final now = DateTime.now();
+
     final nextBirthday = DateTime(
       now.year,
       now.month,
@@ -143,7 +144,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if (date.month <= now.month && date.day <= now.day) {
+      if (date.month <= now.month && date.day < now.day) {
         currentYearDataTime = DateTime(
           now.year + 1,
           widget.birthdayModel.dob.month,
