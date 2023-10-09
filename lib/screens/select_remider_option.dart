@@ -80,22 +80,80 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
             SizedBox(height: 20.h),
             Text(
               'Select Your Reminder Settings',
-              style: const TextStyle().regular20Black.copyWith(fontWeight: FontWeight.bold),
+              style: const TextStyle()
+                  .regular20Black
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.h),
-            RemainderBox(remainderText: 'on the day',isSelected: _prefs.getZeroDayRemainder),
+            RemainderBox(
+              remainderText: 'on the day',
+              isSelected: _prefs.getZeroDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setZeroDayRemainder = !_prefs.getZeroDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '1 day before',isSelected: _prefs.getOneDayRemainder),
+            RemainderBox(
+              remainderText: '1 day before',
+              isSelected: _prefs.getOneDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setOneDayRemainder = !_prefs.getOneDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '2 days before',isSelected: _prefs.getTwoDayRemainder),
+            RemainderBox(
+              remainderText: '2 days before',
+              isSelected: _prefs.getTwoDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setTwoDayRemainder = !_prefs.getTwoDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '3 days before',isSelected: _prefs.getThreeDayRemainder),
+            RemainderBox(
+              remainderText: '3 days before',
+              isSelected: _prefs.getThreeDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setThreeDayRemainder = !_prefs.getThreeDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '4 days before',isSelected: _prefs.getFourDayRemainder),
+            RemainderBox(
+              remainderText: '4 days before',
+              isSelected: _prefs.getFourDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setFourDayRemainder = !_prefs.getFourDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '5 days before',isSelected: _prefs.getFiveDayRemainder),
+            RemainderBox(
+              remainderText: '5 days before',
+              isSelected: _prefs.getFiveDayRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setFiveDayRemainder = !_prefs.getFiveDayRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
-            RemainderBox(remainderText: '1 week before',isSelected: _prefs.getOneWeekRemainder),
+            RemainderBox(
+              remainderText: '1 week before',
+              isSelected: _prefs.getOneWeekRemainder,
+              onTap: () {
+                setState(() {
+                  _prefs.setOneWeekRemainder = !_prefs.getOneWeekRemainder;
+                });
+              },
+            ),
             SizedBox(height: 12.h),
             // CupertinoFormSection.insetGrouped(
             //   children: [
@@ -151,44 +209,58 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
 class RemainderBox extends StatelessWidget {
   final String remainderText;
   final bool isSelected;
+  final VoidCallback onTap;
+
   const RemainderBox({
     required this.remainderText,
     required this.isSelected,
+    required this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 51.h,
-      width: 327.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        gradient:  LinearGradient(
-            colors: isSelected ? [
-              AppColors.purple,
-              AppColors.blue,
-            ] : [
-              Colors.white,
-              Colors.white,
-            ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 51.h,
+        width: 327.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.r),
+          gradient: LinearGradient(
+            colors: isSelected
+                ? [
+                    AppColors.purple,
+                    AppColors.blue,
+                  ]
+                : [
+                    Colors.white,
+                    Colors.white,
+                  ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
         ),
-      ),
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 17.w),
-        child: Row(
-          children: [
-            Text(remainderText,style: const TextStyle().medium16.copyWith(color:isSelected ? Colors.white : AppColors.grey),),
-            const Spacer(),
-            isSelected ? Image.asset(
-              'assets/icons/tip.png',
-              scale: 4,
-              color: Colors.white,
-            ) : const SizedBox(),
-          ],
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 17.w),
+          child: Row(
+            children: [
+              Text(
+                remainderText,
+                style: const TextStyle().medium16.copyWith(
+                    color: isSelected ? Colors.white : AppColors.grey),
+              ),
+              const Spacer(),
+              isSelected
+                  ? Image.asset(
+                      'assets/icons/tip.png',
+                      scale: 4,
+                      color: Colors.white,
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ),
     );
