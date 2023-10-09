@@ -3,6 +3,7 @@ import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/style.dart';
+import 'package:birthdates/widgets/birthdates.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,81 +43,81 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            navProvider.setNavIndex(3);
-          },
-          child: Image.asset(
-            'assets/icons/back.png',
-            scale: 2.95,
+        title: const BirthDates(),
+        centerTitle: true,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 24.0.w),
+          child: InkWell(
+            onTap: () {
+              navProvider.setNavIndex(3);
+            },
+            child: Image.asset(
+              'assets/icons/back.png',
+              scale: 2.95,
+            ),
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 24.0.w),
+            child: InkWell(
+              onTap: () {
+                Provider.of<NavProvider>(context, listen: false).setNavIndex(3);
+              },
+              child: Image.asset(
+                'assets/icons/settings.png',
+                scale: 2.95,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20.h),
             Text(
-              'Select Reminder of birthday',
-              style: const TextStyle().regular20Black,
+              'Select Your Reminder Settings',
+              style: const TextStyle().regular20Black.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.h),
-            CupertinoFormSection.insetGrouped(
-              children: [
-                ...List.generate(
-                  items.length,
-                  (index) => GestureDetector(
-                    onTap: () {
-                      setState(() => _selectedIndex = index);
-                      _prefs.setReminder = items[index].prefix.toString();
-                      FirebaseServices().updateNotificationRemainderList(
-                          _prefs.getDeviceToken,
-                          items[index].prefix.toString());
-                    },
-                    child: buildCupertinoFormRow(
-                      items[index].prefix,
-                      items[index].helper,
-                      selected: _selectedIndex == index,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Expanded(
-            //   child: ListView.builder(
-            //     padding: EdgeInsets.only(bottom: 80.h),
-            //     shrinkWrap: true,
-            //       itemBuilder: (context, index) {
-            //         return GestureDetector(
-            //           onTap: (){
-            //             _prefs.setReminder = (index + 1).toString();
-            //             navProvider.setNavIndex(3);
-            //           },
-            //           child: CupertinoFormSection(
-            //             // header: Text('Reminder'),
-            //             children: [
-            //             ListTile(
-            //                 title: Text('BirthDay',style:const TextStyle().medium20),
-            //                 subtitle: Text('Reminder hours',style:const TextStyle().regular14Black),
-            //                 trailing: Text('${index + 1} hours',style:const TextStyle().regular14Black),
-            //               ),
-            //             ],
-            //             // backgroundColor: Colors.red,
-            //           ),
-            //           // child: Card(
-            //           //   color: AppColors.grey.withOpacity(0.1),
-            //           //   child: ListTile(
-            //           //     title: Text('BirthDay',style:const TextStyle().medium20),
-            //           //     subtitle: Text('Reminder hours',style:const TextStyle().regular14Black),
-            //           //     trailing: Text('${index + 1} hours',style:const TextStyle().regular14Black),
-            //           //   ),
-            //           // ),
-            //         );
-            //       },
-            //       itemCount: reminderList.length),
-            // )
+            RemainderBox(remainderText: 'on the day',isSelected: _prefs.getZeroDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '1 day before',isSelected: _prefs.getOneDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '2 days before',isSelected: _prefs.getTwoDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '3 days before',isSelected: _prefs.getThreeDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '4 days before',isSelected: _prefs.getFourDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '5 days before',isSelected: _prefs.getFiveDayRemainder),
+            SizedBox(height: 12.h),
+            RemainderBox(remainderText: '1 week before',isSelected: _prefs.getOneWeekRemainder),
+            SizedBox(height: 12.h),
+            // CupertinoFormSection.insetGrouped(
+            //   children: [
+            //     ...List.generate(
+            //       items.length,
+            //       (index) => GestureDetector(
+            //         onTap: () {
+            //           setState(() => _selectedIndex = index);
+            //           _prefs.setReminder = items[index].prefix.toString();
+            //           FirebaseServices().updateNotificationRemainderList(
+            //               _prefs.getDeviceToken,
+            //               items[index].prefix.toString());
+            //         },
+            //         child: buildCupertinoFormRow(
+            //           items[index].prefix,
+            //           items[index].helper,
+            //           selected: _selectedIndex == index,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -143,6 +144,53 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
               size: 20,
             )
           : Container(),
+    );
+  }
+}
+
+class RemainderBox extends StatelessWidget {
+  final String remainderText;
+  final bool isSelected;
+  const RemainderBox({
+    required this.remainderText,
+    required this.isSelected,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 51.h,
+      width: 327.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.r),
+        gradient:  LinearGradient(
+            colors: isSelected ? [
+              AppColors.purple,
+              AppColors.blue,
+            ] : [
+              Colors.white,
+              Colors.white,
+            ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 17.w),
+        child: Row(
+          children: [
+            Text(remainderText,style: const TextStyle().medium16.copyWith(color:isSelected ? Colors.white : AppColors.grey),),
+            const Spacer(),
+            isSelected ? Image.asset(
+              'assets/icons/tip.png',
+              scale: 4,
+              color: Colors.white,
+            ) : const SizedBox(),
+          ],
+        ),
+      ),
     );
   }
 }
