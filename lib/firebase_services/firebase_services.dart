@@ -149,7 +149,9 @@ class FirebaseServices {
 
   /// update the notification remainder
   Future<void> updateNotificationRemainderList(
-      String uniqueId, String notificationRemainder) async {
+    String uniqueId,
+    String notificationRemainder,
+  ) async {
     try {
       // Create a reference to the users collection in Firestore
       CollectionReference usersCollection =
@@ -165,13 +167,24 @@ class FirebaseServices {
         List<dynamic> currentItems = document.get('notificationRemainderTime');
         // print(currentItems.length);
 
-        if (currentItems.length == 3) {
-          // If items count is 3, add the sender item to the list
+        // Check if notificationRemainder is in the list
+        bool isPresent = currentItems.contains(notificationRemainder);
+
+        if (isPresent) {
+          // If it's present, remove it from the list
+          currentItems.remove(notificationRemainder);
+        } else {
+          // If it's not present, add it to the list
           currentItems.add(notificationRemainder);
-        } else if (currentItems.length == 4) {
-          // If items count is 4, override the last item with the sender item
-          currentItems[3] = notificationRemainder;
         }
+
+        // if (currentItems.length == 3) {
+        //   // If items count is 3, add the sender item to the list
+        //   currentItems.add(notificationRemainder);
+        // } else if (currentItems.length == 4) {
+        //   // If items count is 4, override the last item with the sender item
+        //   currentItems[3] = notificationRemainder;
+        // }
 
         // Update the 'items' field in the document with the updated list
         await document.reference

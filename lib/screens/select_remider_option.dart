@@ -92,6 +92,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setZeroDayRemainder = !_prefs.getZeroDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  'on the day',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -102,6 +106,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setOneDayRemainder = !_prefs.getOneDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '1 day before',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -112,6 +120,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setTwoDayRemainder = !_prefs.getTwoDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '2 days before',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -122,6 +134,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setThreeDayRemainder = !_prefs.getThreeDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '3 days before',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -132,6 +148,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setFourDayRemainder = !_prefs.getFourDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '4 days before',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -142,6 +162,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setFiveDayRemainder = !_prefs.getFiveDayRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '5 days before',
+                );
               },
             ),
             SizedBox(height: 12.h),
@@ -152,6 +176,10 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 setState(() {
                   _prefs.setOneWeekRemainder = !_prefs.getOneWeekRemainder;
                 });
+                FirebaseServices().updateNotificationRemainderList(
+                  _prefs.getDeviceToken,
+                  '1 week before',
+                );
               },
             ),
             SizedBox(height: 12.h),
