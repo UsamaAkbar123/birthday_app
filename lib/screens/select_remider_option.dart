@@ -6,8 +6,12 @@ import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/birthdates.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class Item {
   final String prefix;
@@ -33,7 +37,6 @@ class SelectReminderOptions extends StatefulWidget {
 class _SelectReminderOptionsState extends State<SelectReminderOptions> {
   final PreferenceManager _prefs = PreferenceManager();
 
-  var _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +77,8 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+
           children: [
             SizedBox(height: 20.h),
             Text(
@@ -183,6 +186,70 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
               },
             ),
             SizedBox(height: 12.h),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 280.h,
+                        child: TimePickerWidget(
+                          dateFormat: 'HH:mm',
+                          onConfirm: (datetime, list) {
+                            _prefs.setRemindMeNotificationTime = DateFormat('h:mm a').format(datetime);
+                            setState(() {});
+                          },
+                          onCancel: (){
+
+                          },
+                        ),
+                      );
+                    });
+                // TimePickerWidget
+              },
+              child: Container(
+                height: 53.h,
+                width: 327.w,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 3),
+                    borderRadius: BorderRadius.circular(20.r)),
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: Row(
+                    children: [
+                      GradientText(
+                        'Remind me at: ',
+                        style: GoogleFonts.rubik(
+                          textStyle: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        colors: const [AppColors.purple, AppColors.blue],
+                      ),
+                      GradientText(
+                        _prefs.getRemindMeNotificationTime,
+                        style: GoogleFonts.rubik(
+                          textStyle: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        colors: const [AppColors.purple, AppColors.blue],
+                      ),
+                      const Spacer(),
+                      Icon(
+                        Icons.more_horiz,
+                        color: AppColors.blue,
+                        size: 25.h,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             // CupertinoFormSection.insetGrouped(
             //   children: [
             //     ...List.generate(

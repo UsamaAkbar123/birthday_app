@@ -12,6 +12,7 @@ class _Keys {
   static const fourDayRemainder = "four_day_remainder";
   static const fiveDayRemainder = "five_day_remainder";
   static const oneWeekDayRemainder = "one_week_day_remainder";
+  static const remindMeNotificationTime = "remind_me_notification_time";
 }
 
 class PreferenceManager {
@@ -93,4 +94,8 @@ class PreferenceManager {
   /// 'oneWeekRemainder' get & set
   bool get getOneWeekRemainder => _prefs?.getBool(_Keys.oneWeekDayRemainder) ?? true;
   set setOneWeekRemainder(bool value) => _prefs?.setBool(_Keys.oneWeekDayRemainder, value);
+
+  /// 'remindMeNotificationTime' get & set
+  String get getRemindMeNotificationTime => _prefs?.getString(_Keys.remindMeNotificationTime) ?? '10:00';
+  set setRemindMeNotificationTime(String value) => _prefs?.setString(_Keys.remindMeNotificationTime, value);
 }
