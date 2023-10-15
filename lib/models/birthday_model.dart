@@ -9,6 +9,7 @@ class BirthdayModel {
   final DateTime dob;
   final int actualUserDobYear;
   final List<String> notificationRemainderTime;
+  final DateTime remindMe;
 
   BirthdayModel({
     required this.id,
@@ -19,6 +20,7 @@ class BirthdayModel {
     required this.dob,
     required this.actualUserDobYear,
     required this.notificationRemainderTime,
+    required this.remindMe,
   });
 
   factory BirthdayModel.fromMap(DocumentSnapshot<Map<String, dynamic>> data) =>
@@ -40,5 +42,6 @@ class BirthdayModel {
                 ? data.get('actual_user_dob_year')
                 : 0,
         notificationRemainderTime: [],
+        remindMe: DateTime.now(),
       );
 }

@@ -131,6 +131,7 @@ class FirebaseServices {
           "fourDaysBeforeNotificationStatus": false,
           "fiveDaysBeforeNotificationStatus": false,
           "oneWeekBeforeNotificationStatus": false,
+          "remindMe": DateTime(2023, 8, 15, 10, 00),
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -245,6 +246,7 @@ class FirebaseServices {
           dob: dateTimeList[i],
           actualUserDobYear: birthDayList[i].actualUserDobYear,
           notificationRemainderTime: [],
+          remindMe: DateTime.now(),
         );
 
         sortedBirthDayList.add(model);
