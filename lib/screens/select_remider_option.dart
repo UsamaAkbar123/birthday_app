@@ -37,7 +37,6 @@ class SelectReminderOptions extends StatefulWidget {
 class _SelectReminderOptionsState extends State<SelectReminderOptions> {
   final PreferenceManager _prefs = PreferenceManager();
 
-
   @override
   Widget build(BuildContext context) {
     var navProvider = Provider.of<NavProvider>(context, listen: false);
@@ -78,7 +77,6 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: ListView(
-
           children: [
             SizedBox(height: 20.h),
             Text(
@@ -196,12 +194,15 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                         child: TimePickerWidget(
                           dateFormat: 'HH:mm',
                           onConfirm: (datetime, list) {
-                            _prefs.setRemindMeNotificationTime = DateFormat('h:mm a').format(datetime);
+                            _prefs.setRemindMeNotificationTime =
+                                DateFormat('h:mm a').format(datetime);
+                            FirebaseServices().updateRemindMeNotificationTime(
+                              _prefs.getDeviceToken,
+                              datetime,
+                            );
                             setState(() {});
                           },
-                          onCancel: (){
-
-                          },
+                          onCancel: () {},
                         ),
                       );
                     });
