@@ -122,10 +122,9 @@ class FirebaseNotification {
 
     /// when app is open from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-
       //print(message);
       if (message == null) return;
-      print('tap terminated notification');
+      // print('tap terminated notification');
       BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
           .firstWhere((element) => element.id == message.data['id']);
 
@@ -136,7 +135,7 @@ class FirebaseNotification {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('tap background notification');
+      // print('tap background notification');
       BirthdayModel? birthdayModel = birthdayProvider.birthdayModeList!
           .firstWhere((element) => element.id == message.data['id']);
 

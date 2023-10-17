@@ -113,7 +113,8 @@ class _ProfileCardState extends State<ProfileCard> {
         ],
       ),
       // height: context.height * 0.3,
-      width: context.width,
+      // width: context.width,
+      width: 327.w,
       child: Column(
         children: [
           Row(
@@ -234,10 +235,12 @@ class _TimerWidgetState extends State<TimerWidget> {
     int hor = (totalSecond ~/ 3600) % 24;
     int day = (totalSecond / 86400).truncate();
     setState(() {
-      minutes = day == 0 ? '00': min.toString().padLeft(2, '0');
-      seconds = day == 0 ? '00':sec.toString().padLeft(2, '0');
-      hours = day == 0 ? '00':hor.toString().padLeft(2, '0');
-      days = day == 0 ? day.toString().padLeft(2, '0') : (day - 1).toString().padLeft(2, '0');
+      minutes = day == 0 ? '00' : min.toString().padLeft(2, '0');
+      seconds = day == 0 ? '00' : sec.toString().padLeft(2, '0');
+      hours = day == 0 ? '00' : hor.toString().padLeft(2, '0');
+      days = day == 0
+          ? day.toString().padLeft(2, '0')
+          : (day - 1).toString().padLeft(2, '0');
     });
   }
 
@@ -264,6 +267,8 @@ class _TimerWidgetState extends State<TimerWidget> {
     userDateTime = Provider.of<BirthDayProvider>(context, listen: false)
         .birthdayModel!
         .dob;
+
+    // print('user date time: $userDateTime');
 
     if (userDateTime.month <= now.month && userDateTime.day < now.day) {
       currentYearDataTime = DateTime(
@@ -340,7 +345,9 @@ class _TimerWidgetState extends State<TimerWidget> {
           ),
         ],
       ),
-      width: context.width,
+      width: 327.w,
+      height: 83.h,
+      // width: context.width,
       child: Column(
         children: [
           startCountDown

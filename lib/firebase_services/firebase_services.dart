@@ -131,6 +131,7 @@ class FirebaseServices {
           "fourDaysBeforeNotificationStatus": false,
           "fiveDaysBeforeNotificationStatus": false,
           "oneWeekBeforeNotificationStatus": false,
+          "remindMe": DateTime(2023, 8, 15, 10, 00),
         };
         await FirebaseServices().addUserBirthDayInfo(
           data: body,
@@ -147,9 +148,35 @@ class FirebaseServices {
     return imageUrl;
   }
 
+  /// update the remind me time
+  Future<void> updateRemindMeNotificationTime(
+    String uniqueId,
+    DateTime remindMeTime,
+  ) async {
+    try {
+      // Create a reference to the users collection in Firestore
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('brith_day_info');
+
+      // Query for documents with the given uniqueId
+      QuerySnapshot querySnapshot =
+          await usersCollection.where('deviceToken', isEqualTo: uniqueId).get();
+
+      // Iterate through the documents with the given uniqueId
+      for (DocumentSnapshot document in querySnapshot.docs) {
+        // Update the 'items' field in the document with the updated list
+        await document.reference.update({'remindMe': remindMeTime});
+      }
+    } catch (e) {
+      debugPrint("Error updating data: $e");
+    }
+  }
+
   /// update the notification remainder
   Future<void> updateNotificationRemainderList(
-      String uniqueId, String notificationRemainder) async {
+    String uniqueId,
+    String notificationRemainder,
+  ) async {
     try {
       // Create a reference to the users collection in Firestore
       CollectionReference usersCollection =
@@ -165,12 +192,15 @@ class FirebaseServices {
         List<dynamic> currentItems = document.get('notificationRemainderTime');
         // print(currentItems.length);
 
-        if (currentItems.length == 3) {
-          // If items count is 3, add the sender item to the list
+        // Check if notificationRemainder is in the list
+        bool isPresent = currentItems.contains(notificationRemainder);
+
+        if (isPresent) {
+          // If it's present, remove it from the list
+          currentItems.remove(notificationRemainder);
+        } else {
+          // If it's not present, add it to the list
           currentItems.add(notificationRemainder);
-        } else if (currentItems.length == 4) {
-          // If items count is 4, override the last item with the sender item
-          currentItems[3] = notificationRemainder;
         }
 
         // Update the 'items' field in the document with the updated list
@@ -232,6 +262,7 @@ class FirebaseServices {
           dob: dateTimeList[i],
           actualUserDobYear: birthDayList[i].actualUserDobYear,
           notificationRemainderTime: [],
+          remindMe: DateTime.now(),
         );
 
         sortedBirthDayList.add(model);

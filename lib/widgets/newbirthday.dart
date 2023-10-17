@@ -263,6 +263,7 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       "fourDaysBeforeNotificationStatus": false,
                       "fiveDaysBeforeNotificationStatus": false,
                       "oneWeekBeforeNotificationStatus": false,
+                      "remindMe": DateTime(2023, 8, 15, 10, 00),
                     };
                     await FirebaseServices().addUserBirthDayInfo(
                       data: body,

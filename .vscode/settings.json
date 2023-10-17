@@ -2,6 +2,7 @@
     "cSpell.words": [
         "appbar",
         "birthdates",
+        "birthdayremindercard",
         "birthdaystarcard",
         "blackstar",
         "brith",
@@ -12,6 +13,7 @@
         "Firestore",
         "giftcard",
         "giftprovider",
+        "horiz",
         "horizontalcardlister",
         "LTRB",
         "navprovider",
