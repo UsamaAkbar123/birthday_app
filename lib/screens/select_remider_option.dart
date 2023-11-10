@@ -1,16 +1,14 @@
 import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/managers/preference_manager.dart';
-import 'package:birthdates/providers/navprovider.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/style.dart';
-import 'package:birthdates/widgets/birthdates.dart';
+import 'package:birthdates/widgets/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class Item {
@@ -19,13 +17,6 @@ class Item {
 
   const Item({required this.prefix, this.helper});
 }
-
-const items = [
-  Item(prefix: '2 day before', helper: ''),
-  Item(prefix: '3 day before', helper: ''),
-  Item(prefix: '4 day before', helper: ''),
-  Item(prefix: '5 day before', helper: ''),
-];
 
 class SelectReminderOptions extends StatefulWidget {
   const SelectReminderOptions({Key? key}) : super(key: key);
@@ -39,40 +30,11 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
 
   @override
   Widget build(BuildContext context) {
-    var navProvider = Provider.of<NavProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        title: const BirthDates(),
-        centerTitle: true,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 24.0.w),
-          child: InkWell(
-            onTap: () {
-              navProvider.setNavIndex(3);
-            },
-            child: Image.asset(
-              'assets/icons/back.png',
-              scale: 2.95,
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 24.0.w),
-            child: InkWell(
-              onTap: () {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(3);
-              },
-              child: Image.asset(
-                'assets/icons/settings.png',
-                scale: 2.95,
-              ),
-            ),
-          ),
-        ],
+      appBar: const MyAppBar(
+        hasBackButton: true,
+        hasSettingIcon: false,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -250,28 +212,6 @@ class _SelectReminderOptionsState extends State<SelectReminderOptions> {
                 ),
               ),
             ),
-
-            // CupertinoFormSection.insetGrouped(
-            //   children: [
-            //     ...List.generate(
-            //       items.length,
-            //       (index) => GestureDetector(
-            //         onTap: () {
-            //           setState(() => _selectedIndex = index);
-            //           _prefs.setReminder = items[index].prefix.toString();
-            //           FirebaseServices().updateNotificationRemainderList(
-            //               _prefs.getDeviceToken,
-            //               items[index].prefix.toString());
-            //         },
-            //         child: buildCupertinoFormRow(
-            //           items[index].prefix,
-            //           items[index].helper,
-            //           selected: _selectedIndex == index,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

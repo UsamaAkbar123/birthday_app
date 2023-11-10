@@ -3,6 +3,7 @@ import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:birthdates/widgets/appbar.dart';
+import 'package:birthdates/widgets/birthdates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: AppColors.background,
       appBar: const MyAppBar(
         hasBackButton: true,
-        backTo: 1,
+        hasSettingIcon: false,
       ),
       body: Column(
         children: [
