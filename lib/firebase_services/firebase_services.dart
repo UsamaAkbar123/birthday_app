@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -110,34 +111,43 @@ class FirebaseServices {
     final imageUrl =
         await snapshot?.ref.getDownloadURL().then((String? imageUrlLink) async {
       if (imageUrlLink != null) {
-        var uuid = const Uuid();
-        body = {
-          "id": uuid.v4().toString(),
-          "deviceToken": _prefs.getDeviceToken,
-          "Name": userName,
-          "Gender": gender,
-          "Date_Of_Brith": dateOfBirth,
-          "image": imageUrlLink,
-          "actual_user_dob_year": dateOfBirth?.year,
-          "notificationRemainderTime": [
-            'on the day',
-            '1 day before',
-            '1 week before',
-          ],
-          "onDayNotificationStatus": false,
-          "oneDayBeforeNotificationStatus": false,
-          "twoDaysBeforeNotificationStatus": false,
-          "threeDaysBeforeNotificationStatus": false,
-          "fourDaysBeforeNotificationStatus": false,
-          "fiveDaysBeforeNotificationStatus": false,
-          "oneWeekBeforeNotificationStatus": false,
-          "remindMe": DateTime(2023, 8, 15, 10, 00),
-        };
-        await FirebaseServices().addUserBirthDayInfo(
-          data: body,
-          context: context,
-          isImageNull: false,
-        );
+        /// get device time zone
+        await FlutterNativeTimezone.getLocalTimezone().then((deviceTimeZone) async {
+          debugPrint('device timezone: $deviceTimeZone');
+          var uuid = const Uuid();
+          body = {
+            "id": uuid.v4().toString(),
+            "deviceToken": _prefs.getDeviceToken,
+            "Name": userName,
+            "Gender": gender,
+            "Date_Of_Brith": dateOfBirth,
+            "image": imageUrlLink,
+            "actual_user_dob_year": dateOfBirth?.year,
+            "notificationRemainderTime": [
+              'on the day',
+              '1 day before',
+              '1 week before',
+            ],
+            "onDayNotificationStatus": false,
+            "oneDayBeforeNotificationStatus": false,
+            "twoDaysBeforeNotificationStatus": false,
+            "threeDaysBeforeNotificationStatus": false,
+            "fourDaysBeforeNotificationStatus": false,
+            "fiveDaysBeforeNotificationStatus": false,
+            "oneWeekBeforeNotificationStatus": false,
+            "remindMe": DateTime(2023, 8, 15, 10, 00),
+            "timeZone": deviceTimeZone,
+          };
+          await FirebaseServices().addUserBirthDayInfo(
+            data: body,
+            context: context,
+            isImageNull: false,
+          );
+          return '';
+        }).onError((error, stackTrace) {
+          debugPrint('Error: $error');
+          return 'error';
+        });
       } else {
         debugPrint('Image Url not found');
       }
