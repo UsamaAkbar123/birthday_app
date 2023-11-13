@@ -279,9 +279,9 @@ class FirebaseServices {
         sortedBirthDayList.add(model);
       }
 
-      for (int i = 0; i < sortedBirthDayList.length; i++) {
-        print('sorted date: ${sortedBirthDayList[i].dob}');
-      }
+      // for (int i = 0; i < sortedBirthDayList.length; i++) {
+      //   print('sorted date: ${sortedBirthDayList[i].dob}');
+      // }
 
       /// check the old birthday from list of birthday
       for (int i = 0; i < sortedBirthDayList.length; i++) {
