@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:birthdates/components/loading_dialogue.dart';
 import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/models/birthday_model.dart';
@@ -44,11 +43,11 @@ class FirebaseServices {
         .doc(data['id'])
         .set(data)
         .then((value) async {
-      await FirebaseServices()
-          .getBirthDayInfo(context: context, addedData: data)
-          .then((value) {
-        final birthdayProvider =
-            Provider.of<BirthDayProvider>(context, listen: false);
+      await FirebaseServices().getBirthDayInfo(context: context).then((value) {
+        final birthdayProvider = Provider.of<BirthDayProvider>(
+          context,
+          listen: false,
+        );
         // print('Response Value: $value');
         List<BirthdayModel> birthdayListData =
             birthdayProvider.birthdayModeList ?? [];
@@ -112,7 +111,8 @@ class FirebaseServices {
         await snapshot?.ref.getDownloadURL().then((String? imageUrlLink) async {
       if (imageUrlLink != null) {
         /// get device time zone
-        await FlutterNativeTimezone.getLocalTimezone().then((deviceTimeZone) async {
+        await FlutterNativeTimezone.getLocalTimezone()
+            .then((deviceTimeZone) async {
           debugPrint('device timezone: $deviceTimeZone');
           var uuid = const Uuid();
           body = {
@@ -223,33 +223,35 @@ class FirebaseServices {
   }
 
   /// get data from firebase
-
-  Future<void> getBirthDayInfo(
-      {required BuildContext context, Map<String, dynamic>? addedData}) async {
-    final birthDayProvider =
-        Provider.of<BirthDayProvider>(context, listen: false);
+  Future<void> getBirthDayInfo({
+    required BuildContext context,
+  }) async {
+    final birthDayProvider = Provider.of<BirthDayProvider>(
+      context,
+      listen: false,
+    );
 
     try {
       DateTime now = DateTime.now();
-
       List<BirthdayModel> listOfOldDates = [];
       List<BirthdayModel> birthDayList = [];
       List<DateTime> dateTimeList = [];
       List<BirthdayModel> sortedBirthDayList = [];
+
+      /// get all birthday list from fire store database
       QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStore
           .collection('brith_day_info')
           .where('deviceToken', isEqualTo: _prefs.getDeviceToken)
           .get();
 
-      // print('querysnapshot==> ${querySnapshot.size}');
-
+      /// first store all the birthday list in a birthDayList
       birthDayList =
           querySnapshot.docs.map((doc) => BirthdayModel.fromMap(doc)).toList();
 
-      // print('birthDayList==> ${birthDayList[0].dob}');
-
+      /// then sort the birthday list based on birthday date
       birthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
+      /// make year of all the birthday dates to current year
       for (int i = 0; i < birthDayList.length; i++) {
         dateTimeList.add(
           DateTime(
@@ -260,8 +262,7 @@ class FirebaseServices {
         );
       }
 
-      // print('dateTimeList==> ${dateTimeList[0]}');
-
+      /// then update all the birthday date in actual birthday list
       for (int i = 0; i < dateTimeList.length; i++) {
         BirthdayModel model = BirthdayModel(
           id: birthDayList[i].id,
@@ -277,29 +278,38 @@ class FirebaseServices {
 
         sortedBirthDayList.add(model);
       }
-      // print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
-
-      sortedBirthDayList.sort(((a, b) => a.dob.compareTo(b.dob)));
 
       for (int i = 0; i < sortedBirthDayList.length; i++) {
-        if (sortedBirthDayList[i].dob.month <= now.month &&
-            sortedBirthDayList[i].dob.day < now.day) {
-          // print('object');
-          listOfOldDates.add(sortedBirthDayList[i]);
-        }
+        print('sorted date: ${sortedBirthDayList[i].dob}');
       }
 
-      // print('listOfOldDates==> ${listOfOldDates.length}');
+      /// check the old birthday from list of birthday
+      for (int i = 0; i < sortedBirthDayList.length; i++) {
+        if (DateTime(
+                sortedBirthDayList[i].dob.year,
+                sortedBirthDayList[i].dob.month,
+                sortedBirthDayList[i].dob.day) !=
+            DateTime(now.year, now.month, now.day)) {
+          if (sortedBirthDayList[i].dob.isBefore(now)) {
+            listOfOldDates.add(sortedBirthDayList[i]);
+          }
+        }
 
+      }
+
+      /// if old date birthday list is not empty, then sort the old list
       if (listOfOldDates.isNotEmpty) {
-        listOfOldDates.sort(((a, b) => a.dob.compareTo(b.dob)));
+        listOfOldDates.sort(
+          ((a, b) => a.dob.compareTo(b.dob)),
+        );
 
+        /// all the list to the end of actual birthday list
         sortedBirthDayList
             .removeWhere((element) => listOfOldDates.contains(element));
-
         sortedBirthDayList.addAll(listOfOldDates);
       }
-      // print('sortedBirthDayList==> ${sortedBirthDayList[0].dob}');
+
+      /// then assign the birthday list to provider value
       birthDayProvider.getBirthDayFromFirebaseService(list: sortedBirthDayList);
     } catch (e) {
       debugPrint('Error: $e');
@@ -307,7 +317,6 @@ class FirebaseServices {
   }
 
   /// delete birth day
-  ///
   void deleteBirthDay({
     required String id,
     required BuildContext context,

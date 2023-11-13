@@ -127,10 +127,7 @@ class MainHomeCard extends StatefulWidget {
 }
 
 class _MainHomeCardState extends State<MainHomeCard> {
-  DateTime currentDateTime = DateTime.now();
-  late DateTime currentYearDataTime;
   String days = '0';
-  int totalSeconds = 0;
 
   void _calculateDaysLeft(DateTime date) {
     final now = DateTime.now();
@@ -144,40 +141,20 @@ class _MainHomeCardState extends State<MainHomeCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if (date.month <= now.month && date.day < now.day) {
-        currentYearDataTime = DateTime(
-          now.year + 1,
-          widget.birthdayModel.dob.month,
-          widget.birthdayModel.dob.day,
-        );
-
-        final difference = currentYearDataTime.difference(nextBirthday);
+      if (date.isBefore(now)) {
+        date = date.add(const Duration(days: 365));
+        final difference = date.difference(nextBirthday);
         days = (difference.inDays).toString();
         // int res = (difference.inSeconds / 86400).truncate();
         // days = res == 0 ?  res.toString() : (res - 1).toString();
         setState(() {});
       } else {
-        // print('current year data time : $currentYearDataTime');
-        currentYearDataTime = DateTime(
-          now.year,
-          widget.birthdayModel.dob.month,
-          widget.birthdayModel.dob.day,
-        );
-        final difference = currentYearDataTime.difference(nextBirthday);
+        final difference = date.difference(nextBirthday);
         days = (difference.inDays).toString();
         // int res = (difference.inSeconds / 86400).truncate();
         // days = res == 0 ?  res.toString() : (res - 1).toString();
         setState(() {});
       }
-
-      // currentYearDataTime = DateTime(
-      //   now.year,
-      //   widget.birthdayModel.dob.month,
-      //   widget.birthdayModel.dob.day,
-      // );
-      // final difference = currentYearDataTime.difference(nextBirthday);
-      // days = (difference.inDays).toString();
-      // setState(() {});
     }
   }
 
@@ -197,13 +174,7 @@ class _MainHomeCardState extends State<MainHomeCard> {
 
   @override
   void initState() {
-    currentYearDataTime = DateTime(
-      widget.birthdayModel.dob.year,
-      widget.birthdayModel.dob.month,
-      widget.birthdayModel.dob.day,
-    );
-    _calculateDaysLeft(currentYearDataTime);
-
+    _calculateDaysLeft(widget.birthdayModel.dob);
     super.initState();
   }
 
