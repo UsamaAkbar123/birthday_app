@@ -1,5 +1,4 @@
 import 'package:birthdates/providers/navprovider.dart';
-import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/widgets/birthdates.dart';
 import 'package:flutter/material.dart';
