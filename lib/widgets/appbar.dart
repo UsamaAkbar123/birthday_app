@@ -92,7 +92,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         height: context.height * 0.13,
         padding: const EdgeInsets.only(left: 25, right: 25, bottom: 13),
         alignment: Alignment.bottomCenter,
-        color: AppColors.background,
+        // color: AppColors.background,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
