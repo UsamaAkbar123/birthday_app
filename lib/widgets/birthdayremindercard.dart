@@ -28,8 +28,6 @@ class BirthdayReminderCard extends StatefulWidget {
 }
 
 class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
-  DateTime currentDateTime = DateTime.now();
-  late DateTime currentYearDataTime;
   String days = '0';
   int totalSeconds = 0;
 
@@ -45,22 +43,11 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
       days = 0.toString();
       setState(() {});
     } else {
-      if (widget.userDateOfBirth.month <= now.month &&
-          widget.userDateOfBirth.day < now.day) {
-        currentYearDataTime = DateTime(
-          now.year + 1,
-          widget.userDateOfBirth.month,
-          widget.userDateOfBirth.day,
-        );
-      } else {
-        currentYearDataTime = DateTime(
-          now.year,
-          widget.userDateOfBirth.month,
-          widget.userDateOfBirth.day,
-        );
+      if (date.isBefore(now)) {
+        date = date.add(const Duration(days: 365));
       }
 
-      final difference = currentYearDataTime.difference(nextBirthday);
+      final difference = date.difference(nextBirthday);
       days = (difference.inDays).toString();
       // int res = (difference.inSeconds / 86400).truncate();
       // days = res == 0 ? res.toString() : (res - 1).toString();
@@ -70,13 +57,7 @@ class _BirthdayReminderCardState extends State<BirthdayReminderCard> {
 
   @override
   void initState() {
-    currentYearDataTime = DateTime(
-      widget.userDateOfBirth.year,
-      widget.userDateOfBirth.month,
-      widget.userDateOfBirth.day,
-    );
-    _calculateDaysLeft(currentYearDataTime);
-
+    _calculateDaysLeft(widget.userDateOfBirth);
     super.initState();
   }
 

@@ -217,8 +217,6 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   late Timer timer;
-  DateTime currentDateTime = DateTime.now();
-  late DateTime currentYearDataTime;
   String days = '00';
   String hours = '00';
   String minutes = '00';
@@ -226,7 +224,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   int totalSeconds = 0;
   bool startCountDown = false;
   late DateTime userDateTime;
-  late Duration remainingTime;
   Duration difference = const Duration();
 
   void getTimeDetails(int totalSecond) {
@@ -268,20 +265,30 @@ class _TimerWidgetState extends State<TimerWidget> {
         .birthdayModel!
         .dob;
 
-    // print('user date time: $userDateTime');
-
-    if (userDateTime.month <= now.month && userDateTime.day < now.day) {
-      currentYearDataTime = DateTime(
-        currentDateTime.year + 1,
-        userDateTime.month,
-        userDateTime.day,
-        23,
-        59,
-        59,
-      );
+    if (DateTime(userDateTime.year, userDateTime.month, userDateTime.day) !=
+        DateTime(now.year, now.month, now.day)) {
+      if (userDateTime.isBefore(now)) {
+        userDateTime = DateTime(
+          userDateTime.year + 1,
+          userDateTime.month,
+          userDateTime.day,
+          00,
+          00,
+          00,
+        );
+      } else {
+        userDateTime = DateTime(
+          userDateTime.year,
+          userDateTime.month,
+          userDateTime.day,
+          23,
+          59,
+          59,
+        );
+      }
     } else {
-      currentYearDataTime = DateTime(
-        currentDateTime.year,
+      userDateTime = DateTime(
+        userDateTime.year,
         userDateTime.month,
         userDateTime.day,
         23,
@@ -290,17 +297,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       );
     }
 
-    // print('current date: $currentDateTime');
-    // print('birthday date: $currentYearDataTime');
-
-    difference = currentYearDataTime.difference(currentDateTime);
-
-    // print('day difference: ${difference.inDays}');
-    // print('hours difference: ${difference.inHours % 24}');
-    // print('minutes difference: ${difference.inMinutes % 60}');
-    // print('seconds difference: ${difference.inSeconds % 60}');
-
-    // print('difference: $difference');
+    difference = userDateTime.difference(now);
     if (difference.inSeconds < 0) {
       totalSeconds = 0;
     } else {

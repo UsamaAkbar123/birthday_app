@@ -34,10 +34,6 @@ class _HorizontalCardListerState extends State<HorizontalCardLister> {
       // print('Odd case $loopLengthForSlider');
     }
 
-    for (int i = 1; i < widget.birthDayList.length; i++) {
-      // print(i);
-    }
-
     super.initState();
   }
 

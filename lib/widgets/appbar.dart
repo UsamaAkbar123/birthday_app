@@ -1,5 +1,4 @@
 import 'package:birthdates/providers/navprovider.dart';
-import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
 import 'package:birthdates/widgets/birthdates.dart';
 import 'package:flutter/material.dart';
@@ -78,10 +77,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
     this.hasBackButton,
     this.backTo,
+    this.hasSettingIcon = true,
     super.key,
   });
   final bool? hasBackButton;
   final int? backTo;
+  final bool ? hasSettingIcon;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -90,7 +91,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         height: context.height * 0.13,
         padding: const EdgeInsets.only(left: 25, right: 25, bottom: 13),
         alignment: Alignment.bottomCenter,
-        color: AppColors.background,
+        // color: AppColors.background,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -126,7 +127,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
             const BirthDates(),
-            InkWell(
+            hasSettingIcon == true ? InkWell(
               onTap: () {
                 Provider.of<NavProvider>(context, listen: false).setNavIndex(3);
               },
@@ -134,7 +135,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'assets/icons/settings.png',
                 scale: 2.95,
               ),
-            ),
+            ) : const SizedBox(),
           ],
         ),
       ),

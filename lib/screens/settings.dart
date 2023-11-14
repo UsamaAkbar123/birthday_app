@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: AppColors.background,
       appBar: const MyAppBar(
         hasBackButton: true,
-        backTo: 1,
+        hasSettingIcon: false,
       ),
       body: Column(
         children: [
