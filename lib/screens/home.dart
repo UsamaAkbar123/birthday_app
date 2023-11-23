@@ -1,5 +1,6 @@
 import 'package:birthdates/firebase_services/firebase_notification.dart';
 import 'package:birthdates/firebase_services/firebase_services.dart';
+import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/models/birthday_model.dart';
 import 'package:birthdates/providers/birthday_provider.dart';
 import 'package:birthdates/providers/navprovider.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    print(PreferenceManager().getRemindMeNotificationTime);
     FirebaseServices().getBirthDayInfo(context: context);
     Future.delayed(const Duration(), () async {
       await FirebaseNotification().initLocalNotifications(context);

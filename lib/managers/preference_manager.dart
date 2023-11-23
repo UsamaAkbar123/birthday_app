@@ -68,34 +68,49 @@ class PreferenceManager {
   set setAppIconIndex(int value) => _prefs?.setInt(_Keys.appIconIndex, value);
 
   /// 'zeroDayRemainder' get & set
-  bool get getZeroDayRemainder => _prefs?.getBool(_Keys.zeroDayRemainder) ?? true;
-  set setZeroDayRemainder(bool value) => _prefs?.setBool(_Keys.zeroDayRemainder, value);
+  bool get getZeroDayRemainder =>
+      _prefs?.getBool(_Keys.zeroDayRemainder) ?? true;
+  set setZeroDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.zeroDayRemainder, value);
 
   /// 'oneDayRemainder' get & set
   bool get getOneDayRemainder => _prefs?.getBool(_Keys.oneDayRemainder) ?? true;
-  set setOneDayRemainder(bool value) => _prefs?.setBool(_Keys.oneDayRemainder, value);
+  set setOneDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.oneDayRemainder, value);
 
   /// 'twoDayRemainder' get & set
-  bool get getTwoDayRemainder => _prefs?.getBool(_Keys.twoDayRemainder) ?? false;
-  set setTwoDayRemainder(bool value) => _prefs?.setBool(_Keys.twoDayRemainder, value);
+  bool get getTwoDayRemainder =>
+      _prefs?.getBool(_Keys.twoDayRemainder) ?? false;
+  set setTwoDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.twoDayRemainder, value);
 
   /// 'threeDayRemainder' get & set
-  bool get getThreeDayRemainder => _prefs?.getBool(_Keys.threeDayRemainder) ?? false;
-  set setThreeDayRemainder(bool value) => _prefs?.setBool(_Keys.threeDayRemainder, value);
+  bool get getThreeDayRemainder =>
+      _prefs?.getBool(_Keys.threeDayRemainder) ?? false;
+  set setThreeDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.threeDayRemainder, value);
 
   /// 'fourDayRemainder' get & set
-  bool get getFourDayRemainder => _prefs?.getBool(_Keys.fourDayRemainder) ?? false;
-  set setFourDayRemainder(bool value) => _prefs?.setBool(_Keys.fourDayRemainder, value);
+  bool get getFourDayRemainder =>
+      _prefs?.getBool(_Keys.fourDayRemainder) ?? false;
+  set setFourDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.fourDayRemainder, value);
 
   /// 'fiveDayRemainder' get & set
-  bool get getFiveDayRemainder => _prefs?.getBool(_Keys.fiveDayRemainder) ?? false;
-  set setFiveDayRemainder(bool value) => _prefs?.setBool(_Keys.fiveDayRemainder, value);
+  bool get getFiveDayRemainder =>
+      _prefs?.getBool(_Keys.fiveDayRemainder) ?? false;
+  set setFiveDayRemainder(bool value) =>
+      _prefs?.setBool(_Keys.fiveDayRemainder, value);
 
   /// 'oneWeekRemainder' get & set
-  bool get getOneWeekRemainder => _prefs?.getBool(_Keys.oneWeekDayRemainder) ?? true;
-  set setOneWeekRemainder(bool value) => _prefs?.setBool(_Keys.oneWeekDayRemainder, value);
+  bool get getOneWeekRemainder =>
+      _prefs?.getBool(_Keys.oneWeekDayRemainder) ?? true;
+  set setOneWeekRemainder(bool value) =>
+      _prefs?.setBool(_Keys.oneWeekDayRemainder, value);
 
   /// 'remindMeNotificationTime' get & set
-  String get getRemindMeNotificationTime => _prefs?.getString(_Keys.remindMeNotificationTime) ?? '10:00';
-  set setRemindMeNotificationTime(String value) => _prefs?.setString(_Keys.remindMeNotificationTime, value);
+  String get getRemindMeNotificationTime =>
+      _prefs?.getString(_Keys.remindMeNotificationTime) ?? '10:00 AM';
+  set setRemindMeNotificationTime(String value) =>
+      _prefs?.setString(_Keys.remindMeNotificationTime, value);
 }

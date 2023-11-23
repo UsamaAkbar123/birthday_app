@@ -1,16 +1,18 @@
 import 'dart:io';
+
 import 'package:birthdates/firebase_services/firebase_services.dart';
 import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/utils/colors.dart';
 import 'package:birthdates/utils/context.dart';
+import 'package:birthdates/utils/helper_function/helper_function.dart';
 import 'package:birthdates/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-
 
 class NewBirthdayBottomSheet extends StatefulWidget {
   const NewBirthdayBottomSheet({super.key});
@@ -243,9 +245,12 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       dateOfBirth: dateTime,
                     );
                   } else {
+                    final parsedTime = DateFormat.jm()
+                        .parse(_prefs.getRemindMeNotificationTime);
 
                     /// get device time zone
-                    await FlutterNativeTimezone.getLocalTimezone().then((deviceTimeZone) async {
+                    await FlutterNativeTimezone.getLocalTimezone()
+                        .then((deviceTimeZone) async {
                       debugPrint('device timezone: $deviceTimeZone');
                       var uuid = const Uuid();
                       body = {
@@ -256,11 +261,8 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                         "Date_Of_Brith": dateTime,
                         "image": 'assets/icons/usericon.png',
                         "actual_user_dob_year": dateTime?.year,
-                        "notificationRemainderTime": [
-                          'on the day',
-                          '1 day before',
-                          '1 week before',
-                        ],
+                        "notificationRemainderTime":
+                            HelperFunction().getRemainderList(),
                         "onDayNotificationStatus": false,
                         "oneDayBeforeNotificationStatus": false,
                         "twoDaysBeforeNotificationStatus": false,
@@ -268,7 +270,13 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                         "fourDaysBeforeNotificationStatus": false,
                         "fiveDaysBeforeNotificationStatus": false,
                         "oneWeekBeforeNotificationStatus": false,
-                        "remindMe": DateTime(2023, 8, 15, 10, 00),
+                        "remindMe": DateTime(
+                          2023,
+                          8,
+                          15,
+                          parsedTime.hour,
+                          parsedTime.minute,
+                        ),
                         "timeZone": deviceTimeZone,
                       };
                       await FirebaseServices().addUserBirthDayInfo(
@@ -281,9 +289,6 @@ class _NewBirthdayBottomSheetState extends State<NewBirthdayBottomSheet> {
                       debugPrint('Error: $error');
                       return 'error';
                     });
-
-
-
                   }
                 }
               },
