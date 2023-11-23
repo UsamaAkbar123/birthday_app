@@ -1,14 +1,17 @@
 import 'dart:io';
+
 import 'package:birthdates/components/loading_dialogue.dart';
 import 'package:birthdates/managers/preference_manager.dart';
 import 'package:birthdates/models/birthday_model.dart';
 import 'package:birthdates/providers/birthday_provider.dart';
 import 'package:birthdates/providers/navprovider.dart';
+import 'package:birthdates/utils/helper_function/helper_function.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -114,6 +117,8 @@ class FirebaseServices {
         await FlutterNativeTimezone.getLocalTimezone()
             .then((deviceTimeZone) async {
           debugPrint('device timezone: $deviceTimeZone');
+          final parsedTime =
+              DateFormat.jm().parse(_prefs.getRemindMeNotificationTime);
           var uuid = const Uuid();
           body = {
             "id": uuid.v4().toString(),
@@ -123,11 +128,7 @@ class FirebaseServices {
             "Date_Of_Brith": dateOfBirth,
             "image": imageUrlLink,
             "actual_user_dob_year": dateOfBirth?.year,
-            "notificationRemainderTime": [
-              'on the day',
-              '1 day before',
-              '1 week before',
-            ],
+            "notificationRemainderTime": HelperFunction().getRemainderList(),
             "onDayNotificationStatus": false,
             "oneDayBeforeNotificationStatus": false,
             "twoDaysBeforeNotificationStatus": false,
@@ -135,7 +136,13 @@ class FirebaseServices {
             "fourDaysBeforeNotificationStatus": false,
             "fiveDaysBeforeNotificationStatus": false,
             "oneWeekBeforeNotificationStatus": false,
-            "remindMe": DateTime(2023, 8, 15, 10, 00),
+            "remindMe": DateTime(
+              2023,
+              8,
+              15,
+              parsedTime.hour,
+              parsedTime.minute,
+            ),
             "timeZone": deviceTimeZone,
           };
           await FirebaseServices().addUserBirthDayInfo(
@@ -294,7 +301,6 @@ class FirebaseServices {
             listOfOldDates.add(sortedBirthDayList[i]);
           }
         }
-
       }
 
       /// if old date birthday list is not empty, then sort the old list

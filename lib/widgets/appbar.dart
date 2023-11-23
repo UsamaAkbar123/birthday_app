@@ -82,7 +82,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
   final bool? hasBackButton;
   final int? backTo;
-  final bool ? hasSettingIcon;
+  final bool? hasSettingIcon;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -92,8 +92,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.only(left: 25, right: 25, bottom: 13),
         alignment: Alignment.bottomCenter,
         // color: AppColors.background,
+        // color: Colors.red,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               children: [
@@ -126,16 +127,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
               ],
             ),
+            const Spacer(),
             const BirthDates(),
-            hasSettingIcon == true ? InkWell(
-              onTap: () {
-                Provider.of<NavProvider>(context, listen: false).setNavIndex(3);
-              },
-              child: Image.asset(
-                'assets/icons/settings.png',
-                scale: 2.95,
-              ),
-            ) : const SizedBox(),
+            const Spacer(),
+            hasSettingIcon == true
+                ? InkWell(
+                    onTap: () {
+                      Provider.of<NavProvider>(context, listen: false)
+                          .setNavIndex(3);
+                    },
+                    child: Image.asset(
+                      'assets/icons/settings.png',
+                      scale: 2.95,
+                    ),
+                  )
+                : Image.asset(
+                    'assets/icons/favourite.png',
+                    scale: 2.95,
+                    color: Colors.transparent,
+                  ),
           ],
         ),
       ),

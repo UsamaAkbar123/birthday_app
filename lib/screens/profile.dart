@@ -330,9 +330,16 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 25.h, vertical: 15.w),
-      padding: EdgeInsets.all(15.w),
+      padding: EdgeInsets.only(
+        top: 9.h,
+        left: 10.w,
+        right: 10.w,
+        bottom: 10.w,
+      ),
+      // padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
         color: AppColors.white,
+        // color: Colors.red,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
@@ -344,23 +351,19 @@ class _TimerWidgetState extends State<TimerWidget> {
       ),
       width: 327.w,
       height: 83.h,
-      // width: context.width,
-      child: Column(
-        children: [
-          startCountDown
-              ? CountDownWidget(
-                  days: days,
-                  hours: hours,
-                  minutes: minutes,
-                  seconds: seconds,
-                )
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.purple,
-                  ),
-                ),
-        ],
-      ),
+      alignment: Alignment.center,
+      child: startCountDown
+          ? CountDownWidget(
+              days: days,
+              hours: hours,
+              minutes: minutes,
+              seconds: seconds,
+            )
+          : const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.purple,
+              ),
+            ),
     );
   }
 }
